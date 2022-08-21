@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(blank=True, null=True)),
                 ('deleted_at', models.DateTimeField(blank=True, null=True)),
                 ('sejam_reference_code', models.CharField(blank=True, max_length=100, null=True)),
-                ('normal_national_code', models.CharField(blank=True, max_length=11, null=True, unique=True)),
+                ('normal_national_code', models.CharField(max_length=11, unique=True)),
                 ('user_name', models.CharField(blank=True, max_length=100, null=True)),
                 ('password', models.CharField(blank=True, max_length=100, null=True)),
                 ('is_active', models.BooleanField(default=False)),

@@ -73,7 +73,7 @@ class CustomerBrokerBourseAccounts(Base):
     rayan_id = models.IntegerField(blank=True, null=True)
     name = models.CharField(max_length=100, blank=True, null=True)
     number = models.CharField(max_length=100, blank=True, null=True)
-    is_default = models.IntegerField(blank=True, null=True)
+    is_default = models.BooleanField(default=True)
     customer = models.ForeignKey('CustomerBrokerInfo', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -130,7 +130,7 @@ class CustomerComexVisitor(Base):
 
 class Customer(Base):
     sejam_reference_code = models.CharField(max_length=100, blank=True, null=True)
-    normal_national_code = models.CharField(unique=True, max_length=11, blank=True, null=True)
+    normal_national_code = models.CharField(unique=True, max_length=11)
     user_name = models.CharField(max_length=100, blank=True, null=True)
     password = models.CharField(max_length=100, blank=True, null=True)
     is_active = models.BooleanField(default=False)
@@ -233,13 +233,10 @@ class CustomerLegalInfo(Base):
 
 
 class CustomerPhonePerson(Base):
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-    deleted_at = models.DateTimeField(blank=True, null=True)
     phone_number = models.CharField(max_length=60, blank=True, null=True)
     is_active = models.BooleanField(blank=True, null=True)
-    is_mobile = models.BooleanField(blank=True, null=True)
-    mebbco_type = models.TextField(blank=True, null=True)
+    is_mobile = models.BooleanField(default=False)
+    mebbco_type = models.CharField(max_length=50, null=True)
     customer = models.ForeignKey(Customer, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
@@ -291,6 +288,7 @@ class CustomerPrivateInfo(Base):
     signature_file = models.TextField(blank=True, null=True)
     customer_id = models.IntegerField(unique=True, blank=True, null=True)
     sex_type_id = models.IntegerField(blank=True, null=True)
+    sex_type_name = models.CharField(max_length=20, null=True)
     place_of_birth = models.TextField(blank=True, null=True)
     gender = models.TextField(blank=True, null=True)
 
