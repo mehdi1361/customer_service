@@ -2,7 +2,11 @@ from django.core.management.base import BaseCommand, CommandError
 from service.client.rayan.broker_customer import customer_list
 
 from customer.models import Customer, CustomerPrivateInfo,\
-    CustomerBrokerInfo, CustomerPhonePerson, CustomerBrokerBourseAccounts
+    CustomerBrokerInfo, CustomerPhonePerson, \
+    CustomerBrokerBourseAccounts, CustomerBankAccount
+
+from base.models import BaseProvince, BaseCities, BaseBankBranch, \
+    BaseBank
 from django.db import transaction
 
 class Command(BaseCommand):
@@ -80,5 +84,35 @@ class Command(BaseCommand):
                     name=item.bourseAccountName,
                     customer=cb
                 )
+
+                province, _ = BaseProvince.objects.get_or_create(
+                    rayan_province_id=str(item.provinceCode),
+                    defaults={"name": item.provinceName}
+                )
+
+                city, _ = BaseCities.objects.get_or_create(
+                    rayan_city_id=str(item.cityCode),
+                    defaults={
+                        "name": item.cityName,
+                        "province": province
+                    }
+                )
+                bank, _ = BaseBank.objects.get_or_create(
+                   title=item.bankName
+                )
+
+                branch = BaseBankBranch.objects.get_or_create(
+                    rayan_branch_id=item.branchId,
+                    bank=bank,
+                    defaults={
+                        "name": item.branchName,
+                        "city": city
+                    }
+                )
+
+                customer_account, _ = CustomerBankAccount.objects.get_or_create(
+
+                )
+
 
                 print(item)

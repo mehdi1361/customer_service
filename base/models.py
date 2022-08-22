@@ -15,8 +15,8 @@ class Base(models.Model):
         abstract = True
 
 class BaseBank(Base):
-    title = models.CharField(max_length=100, blank=True, null=True)
-    bank_id = models.BigIntegerField(blank=True, null=True)
+    title = models.CharField(max_length=100, unique=True)
+    rayan_bank_id = models.BigIntegerField(null=True)
 
     class Meta:
         db_table = 'base_bank'
@@ -24,30 +24,30 @@ class BaseBank(Base):
 
 class BaseBankBranch(Base):
     name = models.CharField(max_length=100, blank=True, null=True)
-    rayan_bank_id = models.TextField(blank=True, null=True)
-    bank_id = models.IntegerField(blank=True, null=True)
+    rayan_branch_id = models.CharField(max_length=100, blank=True, null=True)
     city = models.ForeignKey('BaseCities', models.DO_NOTHING, blank=True, null=True)
-    bank_branch_id = models.IntegerField(blank=True, null=True)
+    bank = models.ForeignKey('BaseBank', models.DO_NOTHING, blank=True, null=True)
     code = models.CharField(max_length=100, blank=True, null=True)
     sejam_code = models.CharField(max_length=100, blank=True, null=True)
     dl_number = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         db_table = 'base_bank_branch'
+        unique_together = ("rayan_branch_id", "bank")
 
 
 class BaseCities(Base):
-    name = models.CharField(unique=True, max_length=10, blank=True, null=True)
+    name = models.CharField(max_length=100, blank=True, null=True)
     province = models.ForeignKey('BaseProvince', models.DO_NOTHING, blank=True, null=True)
-    city_id = models.IntegerField(blank=True, null=True)
-    rayan_city_id = models.IntegerField(blank=True, null=True)
+    rayan_city_id = models.CharField(max_length=100, unique=True)
 
     class Meta:
         db_table = 'base_cities'
+        unique_together = ('name', 'province')
 
 
 class BaseCountries(Base):
-    name = models.CharField(unique=True, max_length=10, blank=True, null=True)
+    name = models.CharField(unique=True, max_length=100, blank=True, null=True)
     country_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -68,15 +68,15 @@ class BaseGender(Base):
     created_at = models.DateTimeField(blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     deleted_at = models.DateTimeField(blank=True, null=True)
-    name = models.CharField(unique=True, max_length=10, blank=True, null=True)
+    name = models.CharField(unique=True, max_length=100, blank=True, null=True)
 
     class Meta:
         db_table = 'base_gender'
 
 
 class BaseJob(Base):
-    title = models.CharField(unique=True, max_length=10, blank=True, null=True)
-    job_id = models.CharField(max_length=10, blank=True, null=True)
+    title = models.CharField(unique=True, max_length=100, blank=True, null=True)
+    job_id = models.CharField(max_length=100, blank=True, null=True)
 
     class Meta:
         db_table = 'base_job'
@@ -92,7 +92,7 @@ class BaseMebbcoBranch(Base):
 
 
 class BaseMebbcoDomain(Base):
-    title = models.CharField(unique=True, max_length=10, blank=True, null=True)
+    title = models.CharField(unique=True, max_length=100, blank=True, null=True)
     id_rayan = models.IntegerField(blank=True, null=True)
     rayan_id = models.BigIntegerField(blank=True, null=True)
     customer_id = models.IntegerField(blank=True, null=True)
@@ -102,10 +102,9 @@ class BaseMebbcoDomain(Base):
 
 
 class BaseProvince(Base):
-    name = models.CharField(unique=True, max_length=10, blank=True, null=True)
-    province_id = models.IntegerField(blank=True, null=True)
+    name = models.CharField(unique=True, max_length=100, blank=True, null=True)
     country = models.ForeignKey(BaseCountries, models.DO_NOTHING, blank=True, null=True)
-    rayan_province_id = models.IntegerField(blank=True, null=True)
+    rayan_province_id = models.CharField(max_length=100, unique=True)
 
     class Meta:
         db_table = 'base_province'
