@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'base',
-    'customer'
+    'customer',
+    'django_grpc_framework',
 ]
 
 MIDDLEWARE = [

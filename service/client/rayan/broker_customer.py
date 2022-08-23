@@ -6,3 +6,8 @@ def customer_list():
     c = client_connection()
     request = MainRequest(name="broker")
     return c.BrokerCustomerListService(request)
+
+def fund_customer_list(service):
+    c = client_connection()
+    request = MainRequest(name=service)
+    return c.FundCustomerListService(request)

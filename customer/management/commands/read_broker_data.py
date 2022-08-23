@@ -101,7 +101,7 @@ class Command(BaseCommand):
                    title=item.bankName
                 )
 
-                branch = BaseBankBranch.objects.get_or_create(
+                branch, _ = BaseBankBranch.objects.get_or_create(
                     rayan_branch_id=item.branchId,
                     bank=bank,
                     defaults={
@@ -111,7 +111,12 @@ class Command(BaseCommand):
                 )
 
                 customer_account, _ = CustomerBankAccount.objects.get_or_create(
-
+                    shaba=item.shabaNumber,
+                    defaults={
+                        "branch": branch,
+                        "account_number": item.bankAccountNumber,
+                        "ba_type_name": item.baTypeName
+                    }
                 )
 
 

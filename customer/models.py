@@ -177,7 +177,7 @@ class CustomerFund(Base):
     branch_id = models.IntegerField(blank=True, null=True)
     fund_name = models.CharField(max_length=60, blank=True, null=True)
     personality = models.CharField(max_length=60, blank=True, null=True)
-    fullname = models.CharField(max_length=100, blank=True, null=True)
+    fullname = models.CharField(max_length=300, blank=True, null=True)
     issuing_city = models.CharField(max_length=100, blank=True, null=True)
     nationality = models.CharField(max_length=100, blank=True, null=True)
     national_identifier = models.CharField(max_length=100, blank=True, null=True)
@@ -190,6 +190,7 @@ class CustomerFund(Base):
 
     class Meta:
         db_table = 'customer_fund'
+        unique_together = ("customer_service", "fund_name")
 
 
 class CustomerJobInfo(Base):
@@ -244,10 +245,6 @@ class CustomerPhonePerson(Base):
 
 
 class CustomerPortfo(Base):
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-    deleted_at = models.DateTimeField(blank=True, null=True)
-    customer_id = models.IntegerField(blank=True, null=True)
     domain_id = models.IntegerField(blank=True, null=True)
     intro_date = models.CharField(max_length=60, blank=True, null=True)
     group_id = models.IntegerField(blank=True, null=True)

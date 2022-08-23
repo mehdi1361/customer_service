@@ -135,7 +135,6 @@ class BaseMebbcoDomain(models.Model):
     title = models.CharField(unique=True, max_length=10, blank=True, null=True)
     id_rayan = models.IntegerField(blank=True, null=True)
     rayan_id = models.BigIntegerField(blank=True, null=True)
-    customer_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
