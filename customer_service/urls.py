@@ -15,7 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from service.server.handler import grpc_handlers as bank_grpc_handlers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+
+
+urlpatterns = []
+
+
+def grpc_handlers(server):
+    bank_grpc_handlers(server)

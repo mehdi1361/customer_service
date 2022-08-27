@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package customer;
+
+import "google/protobuf/empty.proto";
+
+service CustomerController {
+    rpc List(CustomerListRequest) returns (stream Customer) {}
+    rpc Create(Customer) returns (Customer) {}
+    rpc Retrieve(CustomerRetrieveRequest) returns (Customer) {}
+    rpc Update(Customer) returns (Customer) {}
+    rpc Destroy(Customer) returns (google.protobuf.Empty) {}
+}
+
+message Customer {
+    int64 id = 1;
+    string created_date = 2;
+    string updated_date = 3;
+    string sejam_reference_code = 4;
+    string normal_national_code = 5;
+    string user_name = 6;
+    string password = 7;
+    bool is_active = 8;
+    bool is_rayan_service = 9;
+    bool is_sejami = 10;
+    string sejam_type = 11;
+    string rayan_customer_id = 12;
+}
+
+message CustomerListRequest {
+}
+
+message CustomerRetrieveRequest {
+    int64 id = 1;
+}

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package province;
+
+import "google/protobuf/empty.proto";
+
+service BaseProvinceController {
+    rpc List(BaseProvinceListRequest) returns (stream BaseProvince) {}
+    rpc Create(BaseProvince) returns (BaseProvince) {}
+    rpc Retrieve(BaseProvinceRetrieveRequest) returns (BaseProvince) {}
+    rpc Update(BaseProvince) returns (BaseProvince) {}
+    rpc Destroy(BaseProvince) returns (google.protobuf.Empty) {}
+}
+
+message BaseProvince {
+    int64 id = 1;
+    string name = 2;
+    string rayan_province_id = 3;
+}
+
+message BaseProvinceListRequest {
+}
+
+message BaseProvinceRetrieveRequest {
+    int64 id = 1;
+}

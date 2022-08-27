@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package city;
+
+import "google/protobuf/empty.proto";
+
+service BaseCitiesController {
+    rpc List(BaseCitiesListRequest) returns (stream BaseCities) {}
+    rpc Create(BaseCities) returns (BaseCities) {}
+    rpc Retrieve(BaseCitiesRetrieveRequest) returns (BaseCities) {}
+    rpc Update(BaseCities) returns (BaseCities) {}
+    rpc Destroy(BaseCities) returns (google.protobuf.Empty) {}
+}
+
+message BaseCities {
+    int64 id = 1;
+    string name = 4;
+    string rayan_city_id = 5;
+    string province = 6;
+}
+
+message BaseCitiesListRequest {
+}
+
+message BaseCitiesRetrieveRequest {
+    int64 id = 1;
+}

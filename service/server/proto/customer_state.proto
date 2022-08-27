@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package customer_state;
+
+import "google/protobuf/empty.proto";
+
+service CustomerStateController {
+    rpc List(CustomerStateListRequest) returns (stream CustomerState) {}
+    rpc Create(CustomerState) returns (CustomerState) {}
+    rpc Retrieve(CustomerStateRetrieveRequest) returns (CustomerState) {}
+    rpc Update(CustomerState) returns (CustomerState) {}
+    rpc Destroy(CustomerState) returns (google.protobuf.Empty) {}
+}
+
+message CustomerState {
+    int64 id = 1;
+    string created_date = 2;
+    string updated_date = 3;
+    bool confirm = 4;
+    int64 customer = 5;
+    int64 state = 6;
+}
+
+message CustomerStateListRequest {
+}
+
+message CustomerStateRetrieveRequest {
+    int64 id = 1;
+}

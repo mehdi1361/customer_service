@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package bank;
+
+import "google/protobuf/empty.proto";
+
+service BaseBankController {
+    rpc List(BaseBankListRequest) returns (stream BaseBank) {}
+    rpc Create(BaseBank) returns (BaseBank) {}
+    rpc Retrieve(BaseBankRetrieveRequest) returns (BaseBank) {}
+    rpc Update(BaseBank) returns (BaseBank) {}
+    rpc Destroy(BaseBank) returns (google.protobuf.Empty) {}
+}
+
+message BaseBank {
+    int64 id = 1;
+    string created_date = 2;
+    string updated_date = 3;
+    string title = 4;
+    int64 rayan_bank_id = 5;
+}
+
+message BaseBankListRequest {
+}
+
+message BaseBankRetrieveRequest {
+    int64 id = 1;
+}

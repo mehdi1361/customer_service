@@ -294,9 +294,6 @@ class CustomerPrivateInfo(Base):
 
 
 class CustomerState(Base):
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-    deleted_at = models.DateTimeField(blank=True, null=True)
     customer = models.ForeignKey(Customer, models.DO_NOTHING, blank=True, null=True)
     state = models.ForeignKey(BaseState, models.DO_NOTHING, blank=True, null=True)
     confirm = models.BooleanField(blank=True, null=True)

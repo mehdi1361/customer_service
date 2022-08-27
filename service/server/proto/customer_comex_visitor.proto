@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package customer_comex_visitor;
+
+import "google/protobuf/empty.proto";
+
+service CustomerComexVisitorController {
+    rpc List(CustomerComexVisitorListRequest) returns (stream CustomerComexVisitor) {}
+    rpc Create(CustomerComexVisitor) returns (CustomerComexVisitor) {}
+    rpc Retrieve(CustomerComexVisitorRetrieveRequest) returns (CustomerComexVisitor) {}
+    rpc Update(CustomerComexVisitor) returns (CustomerComexVisitor) {}
+    rpc Destroy(CustomerComexVisitor) returns (google.protobuf.Empty) {}
+}
+
+message CustomerComexVisitor {
+    int64 id = 1;
+    string created_date = 2;
+    string updated_date = 3;
+    int32 comex_id_rayan = 4;
+    string full_name = 5;
+    int32 rate = 6;
+    int64 type_mebbco = 7;
+}
+
+message CustomerComexVisitorListRequest {
+}
+
+message CustomerComexVisitorRetrieveRequest {
+    int64 id = 1;
+}
