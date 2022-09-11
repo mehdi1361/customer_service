@@ -40,6 +40,16 @@ class CustomerControllerStub(object):
                 request_serializer=customer__pb2.Customer.SerializeToString,
                 response_deserializer=google_dot_protobuf_dot_empty__pb2.Empty.FromString,
                 )
+        self.GetActiveMobile = channel.unary_unary(
+                '/customer.CustomerController/GetActiveMobile',
+                request_serializer=customer__pb2.CustomerRetrieveRequest.SerializeToString,
+                response_deserializer=customer__pb2.CustomerPhone.FromString,
+                )
+        self.SejamRegisterPrivatePerson = channel.unary_unary(
+                '/customer.CustomerController/SejamRegisterPrivatePerson',
+                request_serializer=customer__pb2.SejamRegisterPrivatePersonRequest.SerializeToString,
+                response_deserializer=customer__pb2.SejamRegisterPrivatePersonResponse.FromString,
+                )
 
 
 class CustomerControllerServicer(object):
@@ -75,6 +85,18 @@ class CustomerControllerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetActiveMobile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def SejamRegisterPrivatePerson(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_CustomerControllerServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -102,6 +124,16 @@ def add_CustomerControllerServicer_to_server(servicer, server):
                     servicer.Destroy,
                     request_deserializer=customer__pb2.Customer.FromString,
                     response_serializer=google_dot_protobuf_dot_empty__pb2.Empty.SerializeToString,
+            ),
+            'GetActiveMobile': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetActiveMobile,
+                    request_deserializer=customer__pb2.CustomerRetrieveRequest.FromString,
+                    response_serializer=customer__pb2.CustomerPhone.SerializeToString,
+            ),
+            'SejamRegisterPrivatePerson': grpc.unary_unary_rpc_method_handler(
+                    servicer.SejamRegisterPrivatePerson,
+                    request_deserializer=customer__pb2.SejamRegisterPrivatePersonRequest.FromString,
+                    response_serializer=customer__pb2.SejamRegisterPrivatePersonResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -195,5 +227,39 @@ class CustomerController(object):
         return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/Destroy',
             customer__pb2.Customer.SerializeToString,
             google_dot_protobuf_dot_empty__pb2.Empty.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetActiveMobile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/GetActiveMobile',
+            customer__pb2.CustomerRetrieveRequest.SerializeToString,
+            customer__pb2.CustomerPhone.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def SejamRegisterPrivatePerson(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/SejamRegisterPrivatePerson',
+            customer__pb2.SejamRegisterPrivatePersonRequest.SerializeToString,
+            customer__pb2.SejamRegisterPrivatePersonResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

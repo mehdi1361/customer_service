@@ -10,6 +10,9 @@ service CustomerController {
     rpc Retrieve(CustomerRetrieveRequest) returns (Customer) {}
     rpc Update(Customer) returns (Customer) {}
     rpc Destroy(Customer) returns (google.protobuf.Empty) {}
+    rpc GetActiveMobile(CustomerRetrieveRequest) returns (CustomerPhone) {}
+    rpc SejamRegisterPrivatePerson (SejamRegisterPrivatePersonRequest) returns (SejamRegisterPrivatePersonResponse) {}
+
 }
 
 message Customer {
@@ -31,5 +34,123 @@ message CustomerListRequest {
 }
 
 message CustomerRetrieveRequest {
-    int64 id = 1;
+    string national_code = 1;
+}
+
+message CustomerPhone {
+    string phone_number = 1;
+    bool is_active = 2;
+    bool is_mobile = 3;
+    string mebbco_type = 4;
+}
+
+message SejamProfileParams {
+        string normal_national_code = 1;
+        string sejam_type = 2;
+        bool is_active = 3;
+        bool is_sejami = 4;
+}
+
+message SejamFinancialInfo {
+        int64 assets_value = 1;
+        int64 incoming_average = 2;
+        int64 s_exchange_transaction = 3;
+        int64 c_exchange_transaction = 4;
+        int64 out_exchange_transaction = 5;
+        string transaction_level = 6;
+        string trading_knowledge_level = 7;
+        string company_purpose = 8;
+        string reference_rate_company = 9;
+        string rate_date = 10;
+        string rate = 11;
+}
+
+
+message SejamJobInfo {
+        string employment_date = 1;
+        string company_name = 2;
+        string company_address = 3;
+        string company_postal_code = 4;
+        string company_email = 5;
+        string company_website = 6;
+        string company_city_prefix = 7;
+        string company_phone = 8;
+        string position = 9;
+        string company_fax_prefix = 10;
+        string company_fax = 11;
+        int32 job_id = 12;
+        string job_title = 13;
+        string job_description = 14;
+}
+
+
+message SejamBankAccount {
+        string account_number = 1;
+        string account_type = 2;
+        string sheba = 3;
+        int32 bank_id = 4;
+        string bank_name = 5;
+        string branch_code = 6;
+        string branch_name = 7;
+        int32 branch_city_id = 8;
+        string branch_city_name = 9;
+        bool is_default = 10;
+}
+
+
+message SejamAddress {
+        int32 country_id = 1;
+        string country_name = 2;
+        int32 province_id = 3;
+        string province_name = 4;
+        int32 city_id = 5;
+        string city_name = 6;
+        int32 section_id = 7;
+        string section_name = 8;
+        string city_prefix = 9;
+        string remnant_address = 10;
+        string alley = 11;
+        string plaque = 12;
+        string tel = 13;
+        string country_prefix = 14;
+        string mobile = 15;
+        string emergency_tel = 16;
+        string emergency_tel_city_prefix = 17;
+        string emergency_tel_country_prefix = 18;
+        string fax_prefix = 19;
+        string fax = 20;
+        string website = 21;
+        string email = 22;
+        string postal_code = 23;
+}
+
+
+message SejamPrivatePerson {
+        string first_name = 1;
+        string last_name = 2;
+        string father_name = 3;
+        string gender = 4;
+        string seri_sh_char = 5;
+        string seri_sh = 6;
+        string serial = 7;
+        string sh_number = 8;
+        string birth_date = 9;
+        string place_of_issue = 10;
+        string place_of_birth = 11;
+        string signature_file = 12;
+}
+
+
+message SejamRegisterPrivatePersonRequest {
+        SejamProfileParams profile = 1;
+        SejamFinancialInfo financial_info = 2;
+        SejamJobInfo job_info = 3;
+        repeated SejamBankAccount sejam_bank_accounts = 4;
+        repeated SejamAddress sejam_addresses = 5;
+        SejamPrivatePerson private_person = 6;
+}
+
+message SejamRegisterPrivatePersonResponse {
+        int32 id = 1;
+        string message = 2;
 }
