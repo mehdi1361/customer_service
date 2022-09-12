@@ -5,7 +5,8 @@ from base.models import BaseBank, BaseProvince, BaseCities
 from service.server.serializers import BankProtoSerializer, \
     ProvinceProtoSerializer, CityProtoSerializer, \
     CustomerComexVisitorProtoSerializer, CustomerProtoSerializer, \
-    CustomerActiveMobileProtoSerializer
+    CustomerActiveMobileProtoSerializer, SejamRegisterPrivatePersonSerializer, \
+    SejamRegisterPrivatePersonResponseSerializer
 from django_grpc_framework import generics
 from customer.models import CustomerComexVisitor, Customer, CustomerPhonePerson
 
@@ -114,4 +115,10 @@ class CustomerService(Service):
 
 
     def SejamRegisterPrivatePerson(self, request, context):
-        pass
+        serializer = SejamRegisterPrivatePersonSerializer
+        print(serializer)
+        response_serializer = SejamRegisterPrivatePersonResponseSerializer(
+            id=200,
+            message="ok"
+        )
+        return response_serializer.message

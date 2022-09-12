@@ -3,8 +3,8 @@
 import grpc
 
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
-from service.server.grpc import customer_pb2 as customer__pb2
 
+from service.server.grpc import customer_pb2 as customer__pb2
 
 class CustomerControllerStub(object):
     """Missing associated documentation comment in .proto file."""

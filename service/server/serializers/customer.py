@@ -178,12 +178,33 @@ class SejamPrivatePersonSerializer(
 class SejamRegisterPrivatePersonSerializer(
         proto_serializers.ProtoSerializer
 ):
-    proto_class = customer_pb2.SejamRegisterPrivatePersonRequest
-    fields = [
-        "profile",
-        "financial_info",
-        "job_info",
-        "sejam_bank_accounts",
-        "sejam_addresses",
-        "private_person",
-    ]
+    profile = SejamProfileSerializer()
+    financial_info = SejamFinancialInfoSerializer()
+    job_info = SejamJobInfoSerializer()
+    sejam_bank_accounts = SejamBankAccountSerializer(many=True)
+    sejam_addresses = SejamAddressSerializer(many=True)
+    private_person = SejamPrivatePersonSerializer()
+
+
+#    fields = [
+#        "profile",
+#        "financial_info",
+#        "job_info",
+#        "sejam_bank_accounts",
+#        "sejam_addresses",
+#        "private_person",
+#    ]
+
+    class Meta:
+        proto_class = customer_pb2.SejamRegisterPrivatePersonRequest
+
+
+class SejamRegisterPrivatePersonResponseSerializer(
+        proto_serializers.ProtoSerializer
+):
+    id =  serializers.IntegerField()
+    message = serializers.CharField(max_length=100)
+
+    class Meta:
+
+        proto_class = customer_pb2.SejamRegisterPrivatePersonResponse
