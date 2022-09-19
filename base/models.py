@@ -16,6 +16,7 @@ class Base(models.Model):
 
 class BaseBank(Base):
     title = models.CharField(max_length=100, unique=True)
+    sejam_id = models.CharField(max_length=50, unique=True, null=True)
     rayan_bank_id = models.BigIntegerField(null=True)
 
     class Meta:
@@ -38,6 +39,7 @@ class BaseBankBranch(Base):
 
 class BaseCities(Base):
     name = models.CharField(max_length=100, blank=True, null=True)
+    sejam_id = models.CharField(max_length=100, blank=True, null=True)
     province = models.ForeignKey('BaseProvince', models.DO_NOTHING, blank=True, null=True)
     rayan_city_id = models.CharField(max_length=100, unique=True)
 
