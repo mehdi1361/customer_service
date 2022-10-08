@@ -2,16 +2,17 @@ import grpc
 from google.protobuf import empty_pb2
 from django_grpc_framework.services import Service
 from base.models import BaseBank, BaseProvince, BaseCities, BaseBankBranch, \
-    BaseCities
+    BaseCities, BaseState
 from service.server.serializers import BankProtoSerializer, \
     ProvinceProtoSerializer, CityProtoSerializer, \
     CustomerComexVisitorProtoSerializer, CustomerProtoSerializer, \
     CustomerActiveMobileProtoSerializer, SejamRegisterPrivatePersonSerializer, \
-    SejamRegisterPrivatePersonResponseSerializer
+    SejamRegisterPrivatePersonResponseSerializer, \
+    GetStateSerializer, SetStateResponseSerializer, CustomerJobInfoSerializer
 from django_grpc_framework import generics
 from customer.models import CustomerComexVisitor, Customer, CustomerPhonePerson, \
     CustomerFinancialInfo, CustomerJobInfo, CustomerBankAccount, \
-    CustomerAddress, CustomerPrivateInfo
+    CustomerAddress, CustomerPrivateInfo, CustomerState, CustomerJobInfo
 from django.db import transaction
 from service.server.grpc import customer_pb2
 
@@ -69,15 +70,11 @@ class CustomerComexVisitorService(generics.ModelService):
    serializer_class = CustomerComexVisitorProtoSerializer
 
 
-#class CustomerService(generics.ModelService):
-#   queryset = Customer.objects.all()
-#   serializer_class = CustomerProtoSerializer
-
 
 class CustomerService(Service):
     def List(self, request, context):
-        banks = Customer.objects.all()
-        serializer = CustomerProtoSerializer(banks, many=True)
+        customers = Customer.objects.all()
+        serializer = CustomerProtoSerializer(customers, many=True)
         for msg in serializer.message:
             yield msg
 
@@ -119,9 +116,7 @@ class CustomerService(Service):
         serializer = CustomerActiveMobileProtoSerializer(actiive_mobile)
         return serializer.message
 
-
     def SejamRegisterPrivatePerson(self, request, context):
-        import ipdb; ipdb.set_trace()
         with transaction.atomic():
             customer, _ =Customer.objects.get_or_create(
                 normal_national_code=request.profile.normal_national_code,
@@ -131,15 +126,17 @@ class CustomerService(Service):
                 }
             )
 
+
+
             CustomerFinancialInfo.objects.get_or_create(
                 customer=customer,
                 defaults= {
-                    "assets_value": request.financial_info.assets_value,
+                    "asset_value": request.financial_info.assets_value,
                     "incoming_average": request.financial_info.incoming_average,
-                    "s_exchange_tranasction": request.financial_info.s_exchange_tranasction,
-                    "c_exchange_tranasction": request.financial_info.c_exchange_tranasction,
-                    "out_exchange_tranasction": request.financial_info.out_exchange_tranasction,
-                    "tranasction_level": request.financial_info.tranasction_level,
+                    "s_exchange_tranasction": request.financial_info.s_exchange_transaction,
+                    "c_exchange_tranasction": request.financial_info.c_exchange_transaction,
+                    "out_exchange_tranasction": request.financial_info.out_exchange_transaction,
+                    "tranasction_level": request.financial_info.transaction_level,
                     "trading_knowledge_level": request.financial_info.trading_knowledge_level,
                     "company_purpose": request.financial_info.company_purpose,
                     "reference_rate_company": request.financial_info.reference_rate_company,
@@ -159,19 +156,19 @@ class CustomerService(Service):
                     "company_website": request.job_info.company_website,
                     "company_city_prefix": request.job_info.company_city_prefix,
                     "company_phone": request.job_info.company_phone,
-                    "job_description": request.job_info.job_description,
                     "position": request.job_info.position,
                     "company_fax_prefix": request.job_info.company_fax_prefix,
                     "company_fax": request.job_info.company_fax,
-                    "job": request.job_info.job,
-                    "job_title": request.job_info.job_title
+                  #  "job": request.job_info.job_id,
+                    "job_title": request.job_info.job_title,
+                    "job_description": request.job_info.job_description
 
                 }
             )
             for item in request.sejam_bank_accounts:
                 city, _ = BaseCities.objects.get_or_create(
                     sejam_id=item.branch_city_id,
-                    name=item.branchi_city_name
+                    name=item.branch_city_name
                 )
 
                 bank, _ = BaseBank.objects.get_or_create(
@@ -191,9 +188,11 @@ class CustomerService(Service):
                 CustomerBankAccount.objects.get_or_create(
                     customer=customer,
                     account_number=item.account_number,
-                    ba_type_name=item.account_type,
-                    sheba=item.sheba,
-                    branch=branch
+                    defaults={
+                        "ba_type_name": item.account_type,
+                        "sheba": item.sheba,
+                        "branch":branch
+                    }
                 )
 
 
@@ -225,6 +224,15 @@ class CustomerService(Service):
                     "website": item.website,
                     "email": item.email
                 }
+
+            )
+            CustomerPhonePerson.objects.get_or_create(
+                phone_number=item.mobile,
+                customer=customer,
+                defaults={
+                    "is_active": True,
+                    "is_mobile": True
+                }
             )
 
         CustomerPrivateInfo.objects.get_or_create(
@@ -243,7 +251,52 @@ class CustomerService(Service):
                 "place_of_birth": request.private_person.place_of_birth,
             }
         )
-        raise Exception("rollback...")
-        result = customer_pb2.SejamRegisterPrivatePersonResponse(id=1, message="test")
+        result = customer_pb2.SejamRegisterPrivatePersonResponse(id=200, message="اطلاعات با موفقیت ذخیره  شد")
         response_serializer = SejamRegisterPrivatePersonResponseSerializer(result)
         return response_serializer.message
+
+
+    def GetState(self, request, context):
+        result = []
+        import ipdb; ipdb.set_trace()
+        for item in BaseState.objects.all():
+            c = CustomerState.objects.filter(
+                customer__normal_national_code=request.normal_national_code,
+                state=item
+            ).first()
+            result.append(customer_pb2.State(
+                state_name=item.state_name,
+                title=item.title,
+                icon_class=item.icon_class,
+                state_id=item.state_id,
+                confirm=c.confirm if c is not None else False
+            ))
+
+        response_serialzer = GetStateSerializer(result, many=True)
+        return response_serialzer.message
+
+
+    def SetState(self, request, context):
+        state = BaseState.objects.get(id=request.state_id)
+        customer = Customer.objects.get(id=request.normal_national_code)
+
+        customer_state, _ = CustomerState.objects.get_or_create(
+            customer=customer,
+            state=state
+        )
+        customer_state.confirm=request.confirm
+        customer_state.save()
+
+        result = customer_pb2.SetStateResponse(id=200, message="وضعیت با تغییر یافت")
+        response_serializer = SetStateResponseSerializer(result)
+        return response_serializer.message
+
+    def GetPersonJobInfo(self, request, context):
+        customer = self.get_object(request.national_code)
+        jobs = CustomerJobInfo.objects.filter(
+            customer=customer,
+            is_active=True
+        ).first()
+
+        serializer = CustomerJobInfoSerializer(jobs, many=True)
+        return serializer.message

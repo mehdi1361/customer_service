@@ -2,9 +2,11 @@
 from django_grpc_framework import proto_serializers
 from customer.models import Customer, \
     CustomerPhonePerson, CustomerFinancialInfo, CustomerJobInfo, \
-    CustomerBankAccount, CustomerAddress, CustomerPrivateInfo
+    CustomerBankAccount, CustomerAddress, CustomerPrivateInfo, \
+    CustomerState, CustomerJobInfo
 from service.server.grpc import customer_pb2
 from rest_framework import serializers
+from base.models import BaseState
 
 
 class CustomerProtoSerializer(
@@ -208,3 +210,52 @@ class SejamRegisterPrivatePersonResponseSerializer(
     class Meta:
 
         proto_class = customer_pb2.SejamRegisterPrivatePersonResponse
+
+
+class GetStateSerializer(
+        proto_serializers.ProtoSerializer
+):
+    state_name = serializers.CharField(max_length=100)
+    title = serializers.CharField(max_length=100)
+    icon_class = serializers.CharField(max_length=100)
+    state_id = serializers.CharField(max_length=100)
+    confirm = serializers.BooleanField()
+
+    class Meta:
+        proto_class = customer_pb2.State
+
+
+class SetStateResponseSerializer(
+        proto_serializers.ProtoSerializer
+):
+    id =  serializers.IntegerField()
+    message = serializers.CharField(max_length=100)
+
+    class Meta:
+
+        proto_class = customer_pb2.SetStateResponse
+
+
+class CustomerJobInfoSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+
+    model = CustomerJobInfo
+    proto_class = customer_pb2.GetPersonJobInfo
+    fields = [
+        "employment_date",
+        "company_name",
+        "company_address",
+        "company_postal_code",
+        "company_email",
+        "company_website",
+        "company_city_prefix",
+        "company_phone",
+        "position",
+        "company_fax_prefix",
+        "company_fax",
+        "job_id",
+        "job_title",
+        "job_description",
+        "customer_id",
+    ]

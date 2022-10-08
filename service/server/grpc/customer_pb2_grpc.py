@@ -3,8 +3,8 @@
 import grpc
 
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
-
 from service.server.grpc import customer_pb2 as customer__pb2
+
 
 class CustomerControllerStub(object):
     """Missing associated documentation comment in .proto file."""
@@ -49,6 +49,21 @@ class CustomerControllerStub(object):
                 '/customer.CustomerController/SejamRegisterPrivatePerson',
                 request_serializer=customer__pb2.SejamRegisterPrivatePersonRequest.SerializeToString,
                 response_deserializer=customer__pb2.SejamRegisterPrivatePersonResponse.FromString,
+                )
+        self.GetState = channel.unary_stream(
+                '/customer.CustomerController/GetState',
+                request_serializer=customer__pb2.StateRequest.SerializeToString,
+                response_deserializer=customer__pb2.State.FromString,
+                )
+        self.SetState = channel.unary_unary(
+                '/customer.CustomerController/SetState',
+                request_serializer=customer__pb2.SetStateRequest.SerializeToString,
+                response_deserializer=customer__pb2.SetStateResponse.FromString,
+                )
+        self.GetPersonJobInfo = channel.unary_unary(
+                '/customer.CustomerController/GetPersonJobInfo',
+                request_serializer=customer__pb2.PersonByNationalIdRequest.SerializeToString,
+                response_deserializer=customer__pb2.JobInfoResponse.FromString,
                 )
 
 
@@ -97,6 +112,24 @@ class CustomerControllerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetState(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def SetState(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetPersonJobInfo(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_CustomerControllerServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -134,6 +167,21 @@ def add_CustomerControllerServicer_to_server(servicer, server):
                     servicer.SejamRegisterPrivatePerson,
                     request_deserializer=customer__pb2.SejamRegisterPrivatePersonRequest.FromString,
                     response_serializer=customer__pb2.SejamRegisterPrivatePersonResponse.SerializeToString,
+            ),
+            'GetState': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetState,
+                    request_deserializer=customer__pb2.StateRequest.FromString,
+                    response_serializer=customer__pb2.State.SerializeToString,
+            ),
+            'SetState': grpc.unary_unary_rpc_method_handler(
+                    servicer.SetState,
+                    request_deserializer=customer__pb2.SetStateRequest.FromString,
+                    response_serializer=customer__pb2.SetStateResponse.SerializeToString,
+            ),
+            'GetPersonJobInfo': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPersonJobInfo,
+                    request_deserializer=customer__pb2.PersonByNationalIdRequest.FromString,
+                    response_serializer=customer__pb2.JobInfoResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -261,5 +309,56 @@ class CustomerController(object):
         return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/SejamRegisterPrivatePerson',
             customer__pb2.SejamRegisterPrivatePersonRequest.SerializeToString,
             customer__pb2.SejamRegisterPrivatePersonResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetState(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/customer.CustomerController/GetState',
+            customer__pb2.StateRequest.SerializeToString,
+            customer__pb2.State.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def SetState(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/SetState',
+            customer__pb2.SetStateRequest.SerializeToString,
+            customer__pb2.SetStateResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetPersonJobInfo(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/GetPersonJobInfo',
+            customer__pb2.PersonByNationalIdRequest.SerializeToString,
+            customer__pb2.JobInfoResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x63ustomer.proto\x12\x08\x63ustomer\x1a\x1bgoogle/protobuf/empty.proto\"\x92\x02\n\x08\x43ustomer\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0c\x63reated_date\x18\x02 \x01(\t\x12\x14\n\x0cupdated_date\x18\x03 \x01(\t\x12\x1c\n\x14sejam_reference_code\x18\x04 \x01(\t\x12\x1c\n\x14normal_national_code\x18\x05 \x01(\t\x12\x11\n\tuser_name\x18\x06 \x01(\t\x12\x10\n\x08password\x18\x07 \x01(\t\x12\x11\n\tis_active\x18\x08 \x01(\x08\x12\x18\n\x10is_rayan_service\x18\t \x01(\x08\x12\x11\n\tis_sejami\x18\n \x01(\x08\x12\x12\n\nsejam_type\x18\x0b \x01(\t\x12\x19\n\x11rayan_customer_id\x18\x0c \x01(\t\"\x15\n\x13\x43ustomerListRequest\"0\n\x17\x43ustomerRetrieveRequest\x12\x15\n\rnational_code\x18\x01 \x01(\t\"`\n\rCustomerPhone\x12\x14\n\x0cphone_number\x18\x01 \x01(\t\x12\x11\n\tis_active\x18\x02 \x01(\x08\x12\x11\n\tis_mobile\x18\x03 \x01(\x08\x12\x13\n\x0bmebbco_type\x18\x04 \x01(\t\"l\n\x12SejamProfileParams\x12\x1c\n\x14normal_national_code\x18\x01 \x01(\t\x12\x12\n\nsejam_type\x18\x02 \x01(\t\x12\x11\n\tis_active\x18\x03 \x01(\x08\x12\x11\n\tis_sejami\x18\x04 \x01(\x08\"\xbc\x02\n\x12SejamFinancialInfo\x12\x14\n\x0c\x61ssets_value\x18\x01 \x01(\x03\x12\x18\n\x10incoming_average\x18\x02 \x01(\x03\x12\x1e\n\x16s_exchange_transaction\x18\x03 \x01(\x03\x12\x1e\n\x16\x63_exchange_transaction\x18\x04 \x01(\x03\x12 \n\x18out_exchange_transaction\x18\x05 \x01(\x03\x12\x19\n\x11transaction_level\x18\x06 \x01(\t\x12\x1f\n\x17trading_knowledge_level\x18\x07 \x01(\t\x12\x17\n\x0f\x63ompany_purpose\x18\x08 \x01(\t\x12\x1e\n\x16reference_rate_company\x18\t \x01(\t\x12\x11\n\trate_date\x18\n \x01(\t\x12\x0c\n\x04rate\x18\x0b \x01(\t\"\xd6\x02\n\x0cSejamJobInfo\x12\x17\n\x0f\x65mployment_date\x18\x01 \x01(\t\x12\x14\n\x0c\x63ompany_name\x18\x02 \x01(\t\x12\x17\n\x0f\x63ompany_address\x18\x03 \x01(\t\x12\x1b\n\x13\x63ompany_postal_code\x18\x04 \x01(\t\x12\x15\n\rcompany_email\x18\x05 \x01(\t\x12\x17\n\x0f\x63ompany_website\x18\x06 \x01(\t\x12\x1b\n\x13\x63ompany_city_prefix\x18\x07 \x01(\t\x12\x15\n\rcompany_phone\x18\x08 \x01(\t\x12\x10\n\x08position\x18\t \x01(\t\x12\x1a\n\x12\x63ompany_fax_prefix\x18\n \x01(\t\x12\x13\n\x0b\x63ompany_fax\x18\x0b \x01(\t\x12\x0e\n\x06job_id\x18\x0c \x01(\x05\x12\x11\n\tjob_title\x18\r \x01(\t\x12\x17\n\x0fjob_description\x18\x0e \x01(\t\"\xe3\x01\n\x10SejamBankAccount\x12\x16\n\x0e\x61\x63\x63ount_number\x18\x01 \x01(\t\x12\x14\n\x0c\x61\x63\x63ount_type\x18\x02 \x01(\t\x12\r\n\x05sheba\x18\x03 \x01(\t\x12\x0f\n\x07\x62\x61nk_id\x18\x04 \x01(\x05\x12\x11\n\tbank_name\x18\x05 \x01(\t\x12\x13\n\x0b\x62ranch_code\x18\x06 \x01(\t\x12\x13\n\x0b\x62ranch_name\x18\x07 \x01(\t\x12\x16\n\x0e\x62ranch_city_id\x18\x08 \x01(\x05\x12\x18\n\x10\x62ranch_city_name\x18\t \x01(\t\x12\x12\n\nis_default\x18\n \x01(\x08\"\xea\x03\n\x0cSejamAddress\x12\x12\n\ncountry_id\x18\x01 \x01(\x05\x12\x14\n\x0c\x63ountry_name\x18\x02 \x01(\t\x12\x13\n\x0bprovince_id\x18\x03 \x01(\x05\x12\x15\n\rprovince_name\x18\x04 \x01(\t\x12\x0f\n\x07\x63ity_id\x18\x05 \x01(\x05\x12\x11\n\tcity_name\x18\x06 \x01(\t\x12\x12\n\nsection_id\x18\x07 \x01(\x05\x12\x14\n\x0csection_name\x18\x08 \x01(\t\x12\x13\n\x0b\x63ity_prefix\x18\t \x01(\t\x12\x17\n\x0fremnant_address\x18\n \x01(\t\x12\r\n\x05\x61lley\x18\x0b \x01(\t\x12\x0e\n\x06plaque\x18\x0c \x01(\t\x12\x0b\n\x03tel\x18\r \x01(\t\x12\x16\n\x0e\x63ountry_prefix\x18\x0e \x01(\t\x12\x0e\n\x06mobile\x18\x0f \x01(\t\x12\x15\n\remergency_tel\x18\x10 \x01(\t\x12!\n\x19\x65mergency_tel_city_prefix\x18\x11 \x01(\t\x12$\n\x1c\x65mergency_tel_country_prefix\x18\x12 \x01(\t\x12\x12\n\nfax_prefix\x18\x13 \x01(\t\x12\x0b\n\x03\x66\x61x\x18\x14 \x01(\t\x12\x0f\n\x07website\x18\x15 \x01(\t\x12\r\n\x05\x65mail\x18\x16 \x01(\t\x12\x13\n\x0bpostal_code\x18\x17 \x01(\t\"\x86\x02\n\x12SejamPrivatePerson\x12\x12\n\nfirst_name\x18\x01 \x01(\t\x12\x11\n\tlast_name\x18\x02 \x01(\t\x12\x13\n\x0b\x66\x61ther_name\x18\x03 \x01(\t\x12\x0e\n\x06gender\x18\x04 \x01(\t\x12\x14\n\x0cseri_sh_char\x18\x05 \x01(\t\x12\x0f\n\x07seri_sh\x18\x06 \x01(\t\x12\x0e\n\x06serial\x18\x07 \x01(\t\x12\x11\n\tsh_number\x18\x08 \x01(\t\x12\x12\n\nbirth_date\x18\t \x01(\t\x12\x16\n\x0eplace_of_issue\x18\n \x01(\t\x12\x16\n\x0eplace_of_birth\x18\x0b \x01(\t\x12\x16\n\x0esignature_file\x18\x0c \x01(\t\"\xd2\x02\n!SejamRegisterPrivatePersonRequest\x12-\n\x07profile\x18\x01 \x01(\x0b\x32\x1c.customer.SejamProfileParams\x12\x34\n\x0e\x66inancial_info\x18\x02 \x01(\x0b\x32\x1c.customer.SejamFinancialInfo\x12(\n\x08job_info\x18\x03 \x01(\x0b\x32\x16.customer.SejamJobInfo\x12\x37\n\x13sejam_bank_accounts\x18\x04 \x03(\x0b\x32\x1a.customer.SejamBankAccount\x12/\n\x0fsejam_addresses\x18\x05 \x03(\x0b\x32\x16.customer.SejamAddress\x12\x34\n\x0eprivate_person\x18\x06 \x01(\x0b\x32\x1c.customer.SejamPrivatePerson\"A\n\"SejamRegisterPrivatePersonResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0f\n\x07message\x18\x02 \x01(\t2\x85\x04\n\x12\x43ustomerController\x12=\n\x04List\x12\x1d.customer.CustomerListRequest\x1a\x12.customer.Customer\"\x00\x30\x01\x12\x32\n\x06\x43reate\x12\x12.customer.Customer\x1a\x12.customer.Customer\"\x00\x12\x43\n\x08Retrieve\x12!.customer.CustomerRetrieveRequest\x1a\x12.customer.Customer\"\x00\x12\x32\n\x06Update\x12\x12.customer.Customer\x1a\x12.customer.Customer\"\x00\x12\x37\n\x07\x44\x65stroy\x12\x12.customer.Customer\x1a\x16.google.protobuf.Empty\"\x00\x12O\n\x0fGetActiveMobile\x12!.customer.CustomerRetrieveRequest\x1a\x17.customer.CustomerPhone\"\x00\x12y\n\x1aSejamRegisterPrivatePerson\x12+.customer.SejamRegisterPrivatePersonRequest\x1a,.customer.SejamRegisterPrivatePersonResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x63ustomer.proto\x12\x08\x63ustomer\x1a\x1bgoogle/protobuf/empty.proto\"\x92\x02\n\x08\x43ustomer\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x14\n\x0c\x63reated_date\x18\x02 \x01(\t\x12\x14\n\x0cupdated_date\x18\x03 \x01(\t\x12\x1c\n\x14sejam_reference_code\x18\x04 \x01(\t\x12\x1c\n\x14normal_national_code\x18\x05 \x01(\t\x12\x11\n\tuser_name\x18\x06 \x01(\t\x12\x10\n\x08password\x18\x07 \x01(\t\x12\x11\n\tis_active\x18\x08 \x01(\x08\x12\x18\n\x10is_rayan_service\x18\t \x01(\x08\x12\x11\n\tis_sejami\x18\n \x01(\x08\x12\x12\n\nsejam_type\x18\x0b \x01(\t\x12\x19\n\x11rayan_customer_id\x18\x0c \x01(\t\"\x15\n\x13\x43ustomerListRequest\"0\n\x17\x43ustomerRetrieveRequest\x12\x15\n\rnational_code\x18\x01 \x01(\t\"`\n\rCustomerPhone\x12\x14\n\x0cphone_number\x18\x01 \x01(\t\x12\x11\n\tis_active\x18\x02 \x01(\x08\x12\x11\n\tis_mobile\x18\x03 \x01(\x08\x12\x13\n\x0bmebbco_type\x18\x04 \x01(\t\"l\n\x12SejamProfileParams\x12\x1c\n\x14normal_national_code\x18\x01 \x01(\t\x12\x12\n\nsejam_type\x18\x02 \x01(\t\x12\x11\n\tis_active\x18\x03 \x01(\x08\x12\x11\n\tis_sejami\x18\x04 \x01(\x08\"\xbc\x02\n\x12SejamFinancialInfo\x12\x14\n\x0c\x61ssets_value\x18\x01 \x01(\x03\x12\x18\n\x10incoming_average\x18\x02 \x01(\x03\x12\x1e\n\x16s_exchange_transaction\x18\x03 \x01(\x03\x12\x1e\n\x16\x63_exchange_transaction\x18\x04 \x01(\x03\x12 \n\x18out_exchange_transaction\x18\x05 \x01(\x03\x12\x19\n\x11transaction_level\x18\x06 \x01(\t\x12\x1f\n\x17trading_knowledge_level\x18\x07 \x01(\t\x12\x17\n\x0f\x63ompany_purpose\x18\x08 \x01(\t\x12\x1e\n\x16reference_rate_company\x18\t \x01(\t\x12\x11\n\trate_date\x18\n \x01(\t\x12\x0c\n\x04rate\x18\x0b \x01(\t\"\xd6\x02\n\x0cSejamJobInfo\x12\x17\n\x0f\x65mployment_date\x18\x01 \x01(\t\x12\x14\n\x0c\x63ompany_name\x18\x02 \x01(\t\x12\x17\n\x0f\x63ompany_address\x18\x03 \x01(\t\x12\x1b\n\x13\x63ompany_postal_code\x18\x04 \x01(\t\x12\x15\n\rcompany_email\x18\x05 \x01(\t\x12\x17\n\x0f\x63ompany_website\x18\x06 \x01(\t\x12\x1b\n\x13\x63ompany_city_prefix\x18\x07 \x01(\t\x12\x15\n\rcompany_phone\x18\x08 \x01(\t\x12\x10\n\x08position\x18\t \x01(\t\x12\x1a\n\x12\x63ompany_fax_prefix\x18\n \x01(\t\x12\x13\n\x0b\x63ompany_fax\x18\x0b \x01(\t\x12\x0e\n\x06job_id\x18\x0c \x01(\x05\x12\x11\n\tjob_title\x18\r \x01(\t\x12\x17\n\x0fjob_description\x18\x0e \x01(\t\"\xe3\x01\n\x10SejamBankAccount\x12\x16\n\x0e\x61\x63\x63ount_number\x18\x01 \x01(\t\x12\x14\n\x0c\x61\x63\x63ount_type\x18\x02 \x01(\t\x12\r\n\x05sheba\x18\x03 \x01(\t\x12\x0f\n\x07\x62\x61nk_id\x18\x04 \x01(\x05\x12\x11\n\tbank_name\x18\x05 \x01(\t\x12\x13\n\x0b\x62ranch_code\x18\x06 \x01(\t\x12\x13\n\x0b\x62ranch_name\x18\x07 \x01(\t\x12\x16\n\x0e\x62ranch_city_id\x18\x08 \x01(\x05\x12\x18\n\x10\x62ranch_city_name\x18\t \x01(\t\x12\x12\n\nis_default\x18\n \x01(\x08\"\xea\x03\n\x0cSejamAddress\x12\x12\n\ncountry_id\x18\x01 \x01(\x05\x12\x14\n\x0c\x63ountry_name\x18\x02 \x01(\t\x12\x13\n\x0bprovince_id\x18\x03 \x01(\x05\x12\x15\n\rprovince_name\x18\x04 \x01(\t\x12\x0f\n\x07\x63ity_id\x18\x05 \x01(\x05\x12\x11\n\tcity_name\x18\x06 \x01(\t\x12\x12\n\nsection_id\x18\x07 \x01(\x05\x12\x14\n\x0csection_name\x18\x08 \x01(\t\x12\x13\n\x0b\x63ity_prefix\x18\t \x01(\t\x12\x17\n\x0fremnant_address\x18\n \x01(\t\x12\r\n\x05\x61lley\x18\x0b \x01(\t\x12\x0e\n\x06plaque\x18\x0c \x01(\t\x12\x0b\n\x03tel\x18\r \x01(\t\x12\x16\n\x0e\x63ountry_prefix\x18\x0e \x01(\t\x12\x0e\n\x06mobile\x18\x0f \x01(\t\x12\x15\n\remergency_tel\x18\x10 \x01(\t\x12!\n\x19\x65mergency_tel_city_prefix\x18\x11 \x01(\t\x12$\n\x1c\x65mergency_tel_country_prefix\x18\x12 \x01(\t\x12\x12\n\nfax_prefix\x18\x13 \x01(\t\x12\x0b\n\x03\x66\x61x\x18\x14 \x01(\t\x12\x0f\n\x07website\x18\x15 \x01(\t\x12\r\n\x05\x65mail\x18\x16 \x01(\t\x12\x13\n\x0bpostal_code\x18\x17 \x01(\t\"\x86\x02\n\x12SejamPrivatePerson\x12\x12\n\nfirst_name\x18\x01 \x01(\t\x12\x11\n\tlast_name\x18\x02 \x01(\t\x12\x13\n\x0b\x66\x61ther_name\x18\x03 \x01(\t\x12\x0e\n\x06gender\x18\x04 \x01(\t\x12\x14\n\x0cseri_sh_char\x18\x05 \x01(\t\x12\x0f\n\x07seri_sh\x18\x06 \x01(\t\x12\x0e\n\x06serial\x18\x07 \x01(\t\x12\x11\n\tsh_number\x18\x08 \x01(\t\x12\x12\n\nbirth_date\x18\t \x01(\t\x12\x16\n\x0eplace_of_issue\x18\n \x01(\t\x12\x16\n\x0eplace_of_birth\x18\x0b \x01(\t\x12\x16\n\x0esignature_file\x18\x0c \x01(\t\"\xd2\x02\n!SejamRegisterPrivatePersonRequest\x12-\n\x07profile\x18\x01 \x01(\x0b\x32\x1c.customer.SejamProfileParams\x12\x34\n\x0e\x66inancial_info\x18\x02 \x01(\x0b\x32\x1c.customer.SejamFinancialInfo\x12(\n\x08job_info\x18\x03 \x01(\x0b\x32\x16.customer.SejamJobInfo\x12\x37\n\x13sejam_bank_accounts\x18\x04 \x03(\x0b\x32\x1a.customer.SejamBankAccount\x12/\n\x0fsejam_addresses\x18\x05 \x03(\x0b\x32\x16.customer.SejamAddress\x12\x34\n\x0eprivate_person\x18\x06 \x01(\x0b\x32\x1c.customer.SejamPrivatePerson\"A\n\"SejamRegisterPrivatePersonResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0f\n\x07message\x18\x02 \x01(\t\",\n\x0cStateRequest\x12\x1c\n\x14normal_national_code\x18\x01 \x01(\t\"a\n\x05State\x12\x12\n\nstate_name\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x12\n\nicon_class\x18\x03 \x01(\t\x12\x10\n\x08state_id\x18\x04 \x01(\x03\x12\x0f\n\x07\x63onfirm\x18\x05 \x01(\x08\"R\n\x0fSetStateRequest\x12\x1c\n\x14normal_national_code\x18\x01 \x01(\t\x12\x10\n\x08state_id\x18\x02 \x01(\x05\x12\x0f\n\x07\x63onfirm\x18\x03 \x01(\x08\"/\n\x10SetStateResponse\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0f\n\x07message\x18\x02 \x01(\t\"9\n\x19PersonByNationalIdRequest\x12\x1c\n\x14normal_national_code\x18\x01 \x01(\t\"\xee\x02\n\x0fJobInfoResponse\x12\x17\n\x0f\x65mployment_date\x18\x01 \x01(\t\x12\x14\n\x0c\x63ompany_name\x18\x02 \x01(\t\x12\x17\n\x0f\x63ompany_address\x18\x03 \x01(\t\x12\x1b\n\x13\x63ompany_postal_code\x18\x04 \x01(\t\x12\x15\n\rcompany_email\x18\x05 \x01(\t\x12\x17\n\x0f\x63ompany_website\x18\x06 \x01(\t\x12\x1b\n\x13\x63ompany_city_prefix\x18\x07 \x01(\t\x12\x15\n\rcompany_phone\x18\x08 \x01(\t\x12\x10\n\x08position\x18\t \x01(\t\x12\x1a\n\x12\x63ompany_fax_prefix\x18\n \x01(\t\x12\x13\n\x0b\x63ompany_fax\x18\x0b \x01(\t\x12\x0e\n\x06job_id\x18\x0c \x01(\t\x12\x11\n\tjob_title\x18\r \x01(\t\x12\x17\n\x0fjob_description\x18\x0e \x01(\t\x12\x13\n\x0b\x63ustomer_id\x18\x0f \x01(\t2\xd9\x05\n\x12\x43ustomerController\x12=\n\x04List\x12\x1d.customer.CustomerListRequest\x1a\x12.customer.Customer\"\x00\x30\x01\x12\x32\n\x06\x43reate\x12\x12.customer.Customer\x1a\x12.customer.Customer\"\x00\x12\x43\n\x08Retrieve\x12!.customer.CustomerRetrieveRequest\x1a\x12.customer.Customer\"\x00\x12\x32\n\x06Update\x12\x12.customer.Customer\x1a\x12.customer.Customer\"\x00\x12\x37\n\x07\x44\x65stroy\x12\x12.customer.Customer\x1a\x16.google.protobuf.Empty\"\x00\x12O\n\x0fGetActiveMobile\x12!.customer.CustomerRetrieveRequest\x1a\x17.customer.CustomerPhone\"\x00\x12y\n\x1aSejamRegisterPrivatePerson\x12+.customer.SejamRegisterPrivatePersonRequest\x1a,.customer.SejamRegisterPrivatePersonResponse\"\x00\x12\x37\n\x08GetState\x12\x16.customer.StateRequest\x1a\x0f.customer.State\"\x00\x30\x01\x12\x43\n\x08SetState\x12\x19.customer.SetStateRequest\x1a\x1a.customer.SetStateResponse\"\x00\x12T\n\x10GetPersonJobInfo\x12#.customer.PersonByNationalIdRequest\x1a\x19.customer.JobInfoResponse\"\x00\x62\x06proto3')
 
 
 
@@ -31,6 +31,12 @@ _SEJAMADDRESS = DESCRIPTOR.message_types_by_name['SejamAddress']
 _SEJAMPRIVATEPERSON = DESCRIPTOR.message_types_by_name['SejamPrivatePerson']
 _SEJAMREGISTERPRIVATEPERSONREQUEST = DESCRIPTOR.message_types_by_name['SejamRegisterPrivatePersonRequest']
 _SEJAMREGISTERPRIVATEPERSONRESPONSE = DESCRIPTOR.message_types_by_name['SejamRegisterPrivatePersonResponse']
+_STATEREQUEST = DESCRIPTOR.message_types_by_name['StateRequest']
+_STATE = DESCRIPTOR.message_types_by_name['State']
+_SETSTATEREQUEST = DESCRIPTOR.message_types_by_name['SetStateRequest']
+_SETSTATERESPONSE = DESCRIPTOR.message_types_by_name['SetStateResponse']
+_PERSONBYNATIONALIDREQUEST = DESCRIPTOR.message_types_by_name['PersonByNationalIdRequest']
+_JOBINFORESPONSE = DESCRIPTOR.message_types_by_name['JobInfoResponse']
 Customer = _reflection.GeneratedProtocolMessageType('Customer', (_message.Message,), {
   'DESCRIPTOR' : _CUSTOMER,
   '__module__' : 'customer_pb2'
@@ -115,6 +121,48 @@ SejamRegisterPrivatePersonResponse = _reflection.GeneratedProtocolMessageType('S
   })
 _sym_db.RegisterMessage(SejamRegisterPrivatePersonResponse)
 
+StateRequest = _reflection.GeneratedProtocolMessageType('StateRequest', (_message.Message,), {
+  'DESCRIPTOR' : _STATEREQUEST,
+  '__module__' : 'customer_pb2'
+  # @@protoc_insertion_point(class_scope:customer.StateRequest)
+  })
+_sym_db.RegisterMessage(StateRequest)
+
+State = _reflection.GeneratedProtocolMessageType('State', (_message.Message,), {
+  'DESCRIPTOR' : _STATE,
+  '__module__' : 'customer_pb2'
+  # @@protoc_insertion_point(class_scope:customer.State)
+  })
+_sym_db.RegisterMessage(State)
+
+SetStateRequest = _reflection.GeneratedProtocolMessageType('SetStateRequest', (_message.Message,), {
+  'DESCRIPTOR' : _SETSTATEREQUEST,
+  '__module__' : 'customer_pb2'
+  # @@protoc_insertion_point(class_scope:customer.SetStateRequest)
+  })
+_sym_db.RegisterMessage(SetStateRequest)
+
+SetStateResponse = _reflection.GeneratedProtocolMessageType('SetStateResponse', (_message.Message,), {
+  'DESCRIPTOR' : _SETSTATERESPONSE,
+  '__module__' : 'customer_pb2'
+  # @@protoc_insertion_point(class_scope:customer.SetStateResponse)
+  })
+_sym_db.RegisterMessage(SetStateResponse)
+
+PersonByNationalIdRequest = _reflection.GeneratedProtocolMessageType('PersonByNationalIdRequest', (_message.Message,), {
+  'DESCRIPTOR' : _PERSONBYNATIONALIDREQUEST,
+  '__module__' : 'customer_pb2'
+  # @@protoc_insertion_point(class_scope:customer.PersonByNationalIdRequest)
+  })
+_sym_db.RegisterMessage(PersonByNationalIdRequest)
+
+JobInfoResponse = _reflection.GeneratedProtocolMessageType('JobInfoResponse', (_message.Message,), {
+  'DESCRIPTOR' : _JOBINFORESPONSE,
+  '__module__' : 'customer_pb2'
+  # @@protoc_insertion_point(class_scope:customer.JobInfoResponse)
+  })
+_sym_db.RegisterMessage(JobInfoResponse)
+
 _CUSTOMERCONTROLLER = DESCRIPTOR.services_by_name['CustomerController']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
@@ -143,6 +191,18 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _SEJAMREGISTERPRIVATEPERSONREQUEST._serialized_end=2606
   _SEJAMREGISTERPRIVATEPERSONRESPONSE._serialized_start=2608
   _SEJAMREGISTERPRIVATEPERSONRESPONSE._serialized_end=2673
-  _CUSTOMERCONTROLLER._serialized_start=2676
-  _CUSTOMERCONTROLLER._serialized_end=3193
+  _STATEREQUEST._serialized_start=2675
+  _STATEREQUEST._serialized_end=2719
+  _STATE._serialized_start=2721
+  _STATE._serialized_end=2818
+  _SETSTATEREQUEST._serialized_start=2820
+  _SETSTATEREQUEST._serialized_end=2902
+  _SETSTATERESPONSE._serialized_start=2904
+  _SETSTATERESPONSE._serialized_end=2951
+  _PERSONBYNATIONALIDREQUEST._serialized_start=2953
+  _PERSONBYNATIONALIDREQUEST._serialized_end=3010
+  _JOBINFORESPONSE._serialized_start=3013
+  _JOBINFORESPONSE._serialized_end=3379
+  _CUSTOMERCONTROLLER._serialized_start=3382
+  _CUSTOMERCONTROLLER._serialized_end=4111
 # @@protoc_insertion_point(module_scope)

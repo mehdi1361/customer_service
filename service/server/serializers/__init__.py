@@ -5,4 +5,4 @@ from .comex_visitor import CustomerComexVisitorProtoSerializer
 from .customer import CustomerProtoSerializer, \
     CustomerActiveMobileProtoSerializer, \
     SejamRegisterPrivatePersonSerializer, \
-    SejamRegisterPrivatePersonResponseSerializer
+    SejamRegisterPrivatePersonResponseSerializer, GetStateSerializer

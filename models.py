@@ -211,7 +211,6 @@ class CustomerBankAccount(models.Model):
     account_number = models.TextField(blank=True, null=True)
     rayan_bank_account_id = models.BigIntegerField(blank=True, null=True)
     ba_type_name = models.CharField(max_length=60, blank=True, null=True)
-    shaba = models.CharField(max_length=60, blank=True, null=True)
     is_default = models.BigIntegerField(blank=True, null=True)
     is_active = models.BooleanField(blank=True, null=True)
     is_online = models.BigIntegerField(blank=True, null=True)

@@ -12,6 +12,10 @@ service CustomerController {
     rpc Destroy(Customer) returns (google.protobuf.Empty) {}
     rpc GetActiveMobile(CustomerRetrieveRequest) returns (CustomerPhone) {}
     rpc SejamRegisterPrivatePerson (SejamRegisterPrivatePersonRequest) returns (SejamRegisterPrivatePersonResponse) {}
+    rpc GetState(StateRequest) returns (stream State) {}
+    rpc SetState(SetStateRequest) returns (SetStateResponse) {}
+    rpc GetPersonJobInfo (PersonByNationalIdRequest) returns (JobInfoResponse) {}
+
 
 }
 
@@ -153,4 +157,50 @@ message SejamRegisterPrivatePersonRequest {
 message SejamRegisterPrivatePersonResponse {
         int32 id = 1;
         string message = 2;
+}
+
+message StateRequest {
+        string normal_national_code = 1;
+}
+
+message State {
+        string state_name = 1;
+        string title = 2;
+        string icon_class = 3;
+        int64 state_id = 4;
+        bool confirm = 5;
+}
+
+message SetStateRequest {
+        string normal_national_code = 1;
+        int32 state_id = 2;
+        bool confirm = 3;
+}
+
+message SetStateResponse {
+        int32 id = 1;
+        string message = 2;
+}
+
+
+message PersonByNationalIdRequest {
+        string normal_national_code = 1;
+}
+
+message JobInfoResponse {
+        string employment_date = 1;
+        string company_name = 2;
+        string company_address = 3;
+		string company_postal_code = 4;
+		string company_email = 5;
+		string company_website = 6;
+		string company_city_prefix = 7;
+		string company_phone = 8;
+		string position = 9;
+		string company_fax_prefix = 10;
+		string company_fax = 11;
+		string job_id = 12;
+		string job_title = 13;
+		string job_description = 14;
+		string customer_id = 15;
 }
