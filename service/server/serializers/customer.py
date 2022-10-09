@@ -3,10 +3,11 @@ from django_grpc_framework import proto_serializers
 from customer.models import Customer, \
     CustomerPhonePerson, CustomerFinancialInfo, CustomerJobInfo, \
     CustomerBankAccount, CustomerAddress, CustomerPrivateInfo, \
-    CustomerState, CustomerJobInfo
+    CustomerState, CustomerJobInfo, CustomerAddress, \
+    CustomerBankAccount, CustomerFinancialInfo
 from service.server.grpc import customer_pb2
 from rest_framework import serializers
-from base.models import BaseState
+from base.models import BaseState, BaseBankBranch
 
 
 class CustomerProtoSerializer(
@@ -241,7 +242,7 @@ class CustomerJobInfoSerializer(
 ):
 
     model = CustomerJobInfo
-    proto_class = customer_pb2.GetPersonJobInfo
+    proto_class = customer_pb2.SejamJobInfo
     fields = [
         "employment_date",
         "company_name",
@@ -258,4 +259,96 @@ class CustomerJobInfoSerializer(
         "job_title",
         "job_description",
         "customer_id",
+    ]
+
+
+class CustomerAddressInfoSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+
+    model = CustomerAddress
+    proto_class = customer_pb2.PersonByAddressResponse
+    fields = [
+        "postal_code",
+        "address",
+        "mobile",
+        "fax",
+        "tel",
+        "email",
+        "province_name",
+        "city_name",
+    ]
+
+class BranchDataSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+    model = BaseBankBranch
+    proto_class = customer_pb2.BranchData
+
+class CustomerAddressInfoSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+
+    model = CustomerBankAccount
+    proto_class = customer_pb2.PersonBankAccount
+    fields = [
+        "account_number",
+        "rayan_bank_account_id",
+        "ba_type_name",
+        "shaba",
+        "is_default",
+        "is_active",
+        "is_online",
+        "branch_data",
+    ]
+
+
+
+class CustomerBranchDataSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+    model = BaseBankBranch
+    proto_class = customer_pb2.BranchData
+    fields = [
+        "name",
+        "code",
+        "sejam_code",
+        "dl_number",
+        "bank",
+        "city",
+    ]
+
+class CustomerBankAccountInfoInfoSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+
+    branch_data = BranchDataSerializer(read_only=True)
+    model = CustomerBankAccount
+    proto_class = customer_pb2.PersonBankAccount
+    fields = [
+        "account_number",
+        "rayan_bank_account_id",
+        "ba_type_name",
+        "shaba",
+        "is_default",
+        "is_active",
+        "is_online",
+        "branch_data",
+    ]
+
+class CustomerFinancialInfoInfoSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+
+    model = CustomerFinancialInfo
+    proto_class = customer_pb2.PersonBankAccount
+    fields = [
+        "account_number",
+        "rayan_bank_account_id",
+        "ba_type_name",
+        "shaba",
+        "is_default",
+        "is_active",
+        "is_online",
+        "branch_data",
     ]

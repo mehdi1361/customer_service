@@ -8,11 +8,13 @@ from service.server.serializers import BankProtoSerializer, \
     CustomerComexVisitorProtoSerializer, CustomerProtoSerializer, \
     CustomerActiveMobileProtoSerializer, SejamRegisterPrivatePersonSerializer, \
     SejamRegisterPrivatePersonResponseSerializer, \
-    GetStateSerializer, SetStateResponseSerializer, CustomerJobInfoSerializer
+    GetStateSerializer, SetStateResponseSerializer, CustomerJobInfoSerializer, \
+    CustomerAddressInfoSerializer, CustomerBankAccountInfoInfoSerializer
 from django_grpc_framework import generics
 from customer.models import CustomerComexVisitor, Customer, CustomerPhonePerson, \
     CustomerFinancialInfo, CustomerJobInfo, CustomerBankAccount, \
-    CustomerAddress, CustomerPrivateInfo, CustomerState, CustomerJobInfo
+    CustomerAddress, CustomerPrivateInfo, CustomerState, CustomerJobInfo, \
+    CustomerAddress
 from django.db import transaction
 from service.server.grpc import customer_pb2
 
@@ -292,11 +294,23 @@ class CustomerService(Service):
         return response_serializer.message
 
     def GetPersonJobInfo(self, request, context):
-        customer = self.get_object(request.national_code)
-        jobs = CustomerJobInfo.objects.filter(
+        customer = self.get_object(request.normal_national_code)
+        job = CustomerJobInfo.objects.filter(
             customer=customer,
             is_active=True
         ).first()
 
-        serializer = CustomerJobInfoSerializer(jobs, many=True)
+        serializer = CustomerJobInfoSerializer(job)
+        return serializer.message
+
+    def GetPersonByAddress(self, request, context):
+        customer = self.get_object(request.normal_national_code)
+        address =CustomerAddress.objects.filter(customer).first()
+        serializer = CustomerAddressInfoSerializer(address)
+        return serializer.message
+
+    def GetPersonBankAccount(self, request, context):
+        customer = self.get_object(request.normal_national_code)
+        accounts =CustomerBankAccount.objects.filter(customer)
+        serializer = CustomerBankAccountInfoInfoSerializer(accounts, many=True)
         return serializer.message

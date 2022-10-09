@@ -65,6 +65,26 @@ class CustomerControllerStub(object):
                 request_serializer=customer__pb2.PersonByNationalIdRequest.SerializeToString,
                 response_deserializer=customer__pb2.JobInfoResponse.FromString,
                 )
+        self.GetPersonByNationalId = channel.unary_unary(
+                '/customer.CustomerController/GetPersonByNationalId',
+                request_serializer=customer__pb2.PersonByNationalIdRequest.SerializeToString,
+                response_deserializer=customer__pb2.PersonByNationalIdResponse.FromString,
+                )
+        self.GetPersonByAddress = channel.unary_unary(
+                '/customer.CustomerController/GetPersonByAddress',
+                request_serializer=customer__pb2.PersonByNationalIdRequest.SerializeToString,
+                response_deserializer=customer__pb2.PersonByAddressResponse.FromString,
+                )
+        self.GetPersonBankAccount = channel.unary_stream(
+                '/customer.CustomerController/GetPersonBankAccount',
+                request_serializer=customer__pb2.PersonByNationalIdRequest.SerializeToString,
+                response_deserializer=customer__pb2.PersonBankAccount.FromString,
+                )
+        self.GetPersonFinancialInfo = channel.unary_unary(
+                '/customer.CustomerController/GetPersonFinancialInfo',
+                request_serializer=customer__pb2.PersonByNationalIdRequest.SerializeToString,
+                response_deserializer=customer__pb2.PersonFinancialResponse.FromString,
+                )
 
 
 class CustomerControllerServicer(object):
@@ -130,6 +150,30 @@ class CustomerControllerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def GetPersonByNationalId(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetPersonByAddress(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetPersonBankAccount(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetPersonFinancialInfo(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_CustomerControllerServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -182,6 +226,26 @@ def add_CustomerControllerServicer_to_server(servicer, server):
                     servicer.GetPersonJobInfo,
                     request_deserializer=customer__pb2.PersonByNationalIdRequest.FromString,
                     response_serializer=customer__pb2.JobInfoResponse.SerializeToString,
+            ),
+            'GetPersonByNationalId': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPersonByNationalId,
+                    request_deserializer=customer__pb2.PersonByNationalIdRequest.FromString,
+                    response_serializer=customer__pb2.PersonByNationalIdResponse.SerializeToString,
+            ),
+            'GetPersonByAddress': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPersonByAddress,
+                    request_deserializer=customer__pb2.PersonByNationalIdRequest.FromString,
+                    response_serializer=customer__pb2.PersonByAddressResponse.SerializeToString,
+            ),
+            'GetPersonBankAccount': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetPersonBankAccount,
+                    request_deserializer=customer__pb2.PersonByNationalIdRequest.FromString,
+                    response_serializer=customer__pb2.PersonBankAccount.SerializeToString,
+            ),
+            'GetPersonFinancialInfo': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetPersonFinancialInfo,
+                    request_deserializer=customer__pb2.PersonByNationalIdRequest.FromString,
+                    response_serializer=customer__pb2.PersonFinancialResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -360,5 +424,73 @@ class CustomerController(object):
         return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/GetPersonJobInfo',
             customer__pb2.PersonByNationalIdRequest.SerializeToString,
             customer__pb2.JobInfoResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetPersonByNationalId(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/GetPersonByNationalId',
+            customer__pb2.PersonByNationalIdRequest.SerializeToString,
+            customer__pb2.PersonByNationalIdResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetPersonByAddress(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/GetPersonByAddress',
+            customer__pb2.PersonByNationalIdRequest.SerializeToString,
+            customer__pb2.PersonByAddressResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetPersonBankAccount(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/customer.CustomerController/GetPersonBankAccount',
+            customer__pb2.PersonByNationalIdRequest.SerializeToString,
+            customer__pb2.PersonBankAccount.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def GetPersonFinancialInfo(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/GetPersonFinancialInfo',
+            customer__pb2.PersonByNationalIdRequest.SerializeToString,
+            customer__pb2.PersonFinancialResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
