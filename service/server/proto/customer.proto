@@ -19,6 +19,8 @@ service CustomerController {
     rpc GetPersonByAddress (PersonByNationalIdRequest) returns (PersonByAddressResponse) {}
     rpc GetPersonBankAccount (PersonByNationalIdRequest) returns (stream PersonBankAccount) {}
     rpc GetPersonFinancialInfo (PersonByNationalIdRequest) returns (PersonFinancialResponse) {}
+    rpc CustomerGetFile (PersonByNationalIdRequest) returns (stream CustomerFile) {}
+    rpc CustomerPostFile (PostCustomerFile) returns (PostCustomerFileResponse) {}
 }
 
 message Customer {
@@ -255,14 +257,40 @@ message BranchData {
 
 message PersonFinancialResponse {
 	int64 assets_value = 1;
-	int64 inComing_average = 2;
+	int64 incoming_average = 2;
 	int64 s_exchange_transaction = 3;
-	int64 c_Exchange_transaction = 4;
-	int64 out_Exchange_transaction = 5;
+	int64 c_exchange_transaction = 4;
+	int64 out_exchange_transaction = 5;
 	string transaction_level = 6;
 	string trading_knowledge_level = 7;
 	string company_purpose = 8;
 	string reference_rate_company = 9;
 	string rate_date = 10;
 	string rate = 11;
+}
+
+message FileExtension {
+        string name = 1;
+        int32 real_size = 2;
+        string size = 3;
+}
+
+message CustomerFile {
+        uint32 id = 1;
+        string name = 2;
+        string fa_name = 3;
+        bool is_force = 4;
+        string file_data = 5;
+        FileExtension file_extension = 6;
+}
+
+message PostCustomerFile {
+        string normal_national_code = 1;
+        int32 file_type_id = 2;
+        string file_data = 3;
+}
+
+message PostCustomerFileResponse {
+        int32 id = 1;
+        string message = 2;
 }

@@ -205,7 +205,7 @@ class SejamRegisterPrivatePersonSerializer(
 class SejamRegisterPrivatePersonResponseSerializer(
         proto_serializers.ProtoSerializer
 ):
-    id =  serializers.IntegerField()
+    id = serializers.IntegerField()
     message = serializers.CharField(max_length=100)
 
     class Meta:
@@ -352,3 +352,47 @@ class CustomerFinancialInfoInfoSerializer(
         "is_online",
         "branch_data",
     ]
+
+class FileExtensionSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+    name = serializers.CharField(max_length=100)
+    real_size = serializers.IntegerField()
+    size = serializers.CharField(max_length=100)
+
+    class Meta:
+        proto_class = customer_pb2.FileExtension
+
+
+class CustomerFileSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+    file_extension = serializers.SerializerMethodField()
+    id = serializers.IntegerField()
+    name = serializers.CharField(max_length=100)
+    fa_name = serializers.CharField(max_length=100)
+    is_force = serializers.BooleanField()
+    file_data = serializers.CharField()
+
+    class Meta:
+        proto_class = customer_pb2.FileExtension
+
+    def get_file_extension(self, obj):
+        result = customer_pb2.FileExtension(
+            name="image/jpg, image/jpeg, image/png",
+            real_size=5 * 1024 * 1024,
+            size="5MB"
+        )
+
+        serializer = FileExtensionSerializer(result)
+        return serializer.message
+
+
+class PostCustomerFileSerializer(
+        proto_serializers.ProtoSerializer
+):
+    id = serializers.IntegerField()
+    message = serializers.CharField(max_length=100)
+
+    class Meta:
+        proto_class = customer_pb2.PostCustomerFileResponse

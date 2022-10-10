@@ -2,19 +2,20 @@ import grpc
 from google.protobuf import empty_pb2
 from django_grpc_framework.services import Service
 from base.models import BaseBank, BaseProvince, BaseCities, BaseBankBranch, \
-    BaseCities, BaseState
+    BaseCities, BaseState, BaseFileType
 from service.server.serializers import BankProtoSerializer, \
     ProvinceProtoSerializer, CityProtoSerializer, \
     CustomerComexVisitorProtoSerializer, CustomerProtoSerializer, \
     CustomerActiveMobileProtoSerializer, SejamRegisterPrivatePersonSerializer, \
     SejamRegisterPrivatePersonResponseSerializer, \
     GetStateSerializer, SetStateResponseSerializer, CustomerJobInfoSerializer, \
-    CustomerAddressInfoSerializer, CustomerBankAccountInfoInfoSerializer
+    CustomerAddressInfoSerializer, CustomerBankAccountInfoInfoSerializer, \
+    CustomerFinancialInfoInfoSerializer, CustomerFileSerializer, \
+    PostCustomerFileSerializer
 from django_grpc_framework import generics
 from customer.models import CustomerComexVisitor, Customer, CustomerPhonePerson, \
     CustomerFinancialInfo, CustomerJobInfo, CustomerBankAccount, \
-    CustomerAddress, CustomerPrivateInfo, CustomerState, CustomerJobInfo, \
-    CustomerAddress
+    CustomerAddress, CustomerPrivateInfo, CustomerState, CustomerJobInfo, CustomerFile
 from django.db import transaction
 from service.server.grpc import customer_pb2
 
@@ -305,12 +306,54 @@ class CustomerService(Service):
 
     def GetPersonByAddress(self, request, context):
         customer = self.get_object(request.normal_national_code)
-        address =CustomerAddress.objects.filter(customer).first()
+        address =CustomerAddress.objects.filter(customer=customer).first()
         serializer = CustomerAddressInfoSerializer(address)
         return serializer.message
 
     def GetPersonBankAccount(self, request, context):
         customer = self.get_object(request.normal_national_code)
-        accounts =CustomerBankAccount.objects.filter(customer)
+        accounts =CustomerBankAccount.objects.filter(customer=customer)
         serializer = CustomerBankAccountInfoInfoSerializer(accounts, many=True)
         return serializer.message
+
+    def GetPersonFinancialInfo(self, request, context):
+        customer = self.get_object(request.normal_national_code)
+        financial_info = CustomerFinancialInfo.objects.filter(customer=customer)
+        serializer = CustomerFinancialInfoInfoSerializer(financial_info)
+        return serializer.message
+
+    def CustomerGetFile(self, request, context):
+        customer = self.get_object(request.normal_national_code)
+        result = []
+        for item in BaseFileType.objects.all():
+            c_file = CustomerFile.objects.filter(customer=customer, file_type=item).first()
+            result.append(customer_pb2.CustomerFile(
+                id=item.id,
+                name=item.name,
+                fa_name=item.fa_name,
+                file_data=None if c_file is None else c_file.file_data
+            ))
+
+        serializer = CustomerFileSerializer(result, many=True)
+        return serializer.message
+
+    def CustomerPostFile(self, request, context):
+        try:
+            customer = self.get_object(request.normal_national_code)
+            file_type = BaseFileType.objects.get(id=request.file_type_id)
+            c, created = CustomerFile.objects.get_or_create(
+                customer=customer,
+                file_rtype=file_type,
+                defaults={"file_data": request.file_data}
+            )
+            if not created:
+                c.file_data = request.file_data
+                c.save()
+
+                result = customer_pb2.PostCustomerFileResponse(id=200, message="اطلاعات با موفقیت ذخیره  شد")
+        except Exception as e:
+                result = customer_pb2.PostCustomerFileResponse(id=400, message="خطا در ثبت اطلاعات")
+
+        finally:
+            response_serializer = PostCustomerFileSerializer(result)
+            return response_serializer.message

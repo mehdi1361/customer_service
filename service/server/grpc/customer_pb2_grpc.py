@@ -85,6 +85,16 @@ class CustomerControllerStub(object):
                 request_serializer=customer__pb2.PersonByNationalIdRequest.SerializeToString,
                 response_deserializer=customer__pb2.PersonFinancialResponse.FromString,
                 )
+        self.CustomerGetFile = channel.unary_stream(
+                '/customer.CustomerController/CustomerGetFile',
+                request_serializer=customer__pb2.PersonByNationalIdRequest.SerializeToString,
+                response_deserializer=customer__pb2.CustomerFile.FromString,
+                )
+        self.CustomerPostFile = channel.unary_unary(
+                '/customer.CustomerController/CustomerPostFile',
+                request_serializer=customer__pb2.PostCustomerFile.SerializeToString,
+                response_deserializer=customer__pb2.PostCustomerFileResponse.FromString,
+                )
 
 
 class CustomerControllerServicer(object):
@@ -174,6 +184,18 @@ class CustomerControllerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CustomerGetFile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CustomerPostFile(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_CustomerControllerServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -246,6 +268,16 @@ def add_CustomerControllerServicer_to_server(servicer, server):
                     servicer.GetPersonFinancialInfo,
                     request_deserializer=customer__pb2.PersonByNationalIdRequest.FromString,
                     response_serializer=customer__pb2.PersonFinancialResponse.SerializeToString,
+            ),
+            'CustomerGetFile': grpc.unary_stream_rpc_method_handler(
+                    servicer.CustomerGetFile,
+                    request_deserializer=customer__pb2.PersonByNationalIdRequest.FromString,
+                    response_serializer=customer__pb2.CustomerFile.SerializeToString,
+            ),
+            'CustomerPostFile': grpc.unary_unary_rpc_method_handler(
+                    servicer.CustomerPostFile,
+                    request_deserializer=customer__pb2.PostCustomerFile.FromString,
+                    response_serializer=customer__pb2.PostCustomerFileResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -492,5 +524,39 @@ class CustomerController(object):
         return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/GetPersonFinancialInfo',
             customer__pb2.PersonByNationalIdRequest.SerializeToString,
             customer__pb2.PersonFinancialResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CustomerGetFile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/customer.CustomerController/CustomerGetFile',
+            customer__pb2.PersonByNationalIdRequest.SerializeToString,
+            customer__pb2.CustomerFile.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CustomerPostFile(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/CustomerPostFile',
+            customer__pb2.PostCustomerFile.SerializeToString,
+            customer__pb2.PostCustomerFileResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
