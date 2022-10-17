@@ -3,8 +3,8 @@ from django_grpc_framework import proto_serializers
 from customer.models import Customer, \
     CustomerPhonePerson, CustomerFinancialInfo, CustomerJobInfo, \
     CustomerBankAccount, CustomerAddress, CustomerPrivateInfo, \
-    CustomerState, CustomerJobInfo, CustomerAddress, \
-    CustomerBankAccount, CustomerFinancialInfo
+    CustomerState
+
 from service.server.grpc import customer_pb2
 from rest_framework import serializers
 from base.models import BaseState, BaseBankBranch
@@ -59,123 +59,129 @@ class SejamProfileSerializer(
             "is_active"
         ]
 
+
 class SejamFinancialInfoSerializer(
         proto_serializers.ModelProtoSerializer
 ):
-    model = CustomerFinancialInfo
-    proto_class = customer_pb2.SejamProfileParams
-    fields = [
-        "assets_value",
-        "incoming_average",
-        "s_exchange_transaction",
-        "c_exchange_transaction",
-        "out_exchange_transaction",
-        "transaction_level",
-        "trading_knowledge_level",
-        "company_purpose",
-        "reference_rate_company",
-        "rate_date",
-        "rate",
-    ]
+    class Meta:
+        model = CustomerFinancialInfo
+        proto_class = customer_pb2.SejamProfileParams
+        fields = [
+            "assets_value",
+            "incoming_average",
+            "s_exchange_transaction",
+            "c_exchange_transaction",
+            "out_exchange_transaction",
+            "transaction_level",
+            "trading_knowledge_level",
+            "company_purpose",
+            "reference_rate_company",
+            "rate_date",
+            "rate",
+        ]
 
 
 class SejamJobInfoSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
-    model = CustomerJobInfo
-    proto_class = customer_pb2.SejamJobInfo
-    fields = [
-        "employment_date",
-        "company_name",
-        "company_address",
-        "company_postal_code",
-        "company_email",
-        "company_website",
-        "company_city_prefix",
-        "company_phone",
-        "position",
-        "company_fax_prefix",
-        "company_fax",
-        "job_id",
-        "job_title",
-        "job_description",
-    ]
+    class Meta:
+        model = CustomerJobInfo
+        proto_class = customer_pb2.SejamJobInfo
+        fields = [
+            "employment_date",
+            "company_name",
+            "company_address",
+            "company_postal_code",
+            "company_email",
+            "company_website",
+            "company_city_prefix",
+            "company_phone",
+            "position",
+            "company_fax_prefix",
+            "company_fax",
+            "job_id",
+            "job_title",
+            "job_description",
+        ]
 
 
 class SejamBankAccountSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
-    model = CustomerBankAccount
-    proto_class = customer_pb2.SejamBankAccount
-    fields = [
-        "account_number",
-        "account_type",
-        "sheba",
-        "bank_id",
-        "bank_name",
-        "branch_code",
-        "branch_name",
-        "branch_city_id",
-        "branch_city_name",
-        "is_default",
-    ]
+    class Meta:
+        model = CustomerBankAccount
+        proto_class = customer_pb2.SejamBankAccount
+        fields = [
+            "account_number",
+            "account_type",
+            "sheba",
+            "bank_id",
+            "bank_name",
+            "branch_code",
+            "branch_name",
+            "branch_city_id",
+            "branch_city_name",
+            "is_default",
+        ]
 
 
 class SejamAddressSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
-    model = CustomerAddress
-    proto_class = customer_pb2.SejamAddress
-    fields = [
-        "country_id",
-        "country_name",
-        "province_id",
-        "province_name",
-        "city_id",
-        "city_name",
-        "section_id",
-        "section_name",
-        "city_prefix",
-        "remnant_address",
-        "alley",
-        "plaque",
-        "tel",
-        "country_prefix",
-        "mobile",
-        "emergency_tel",
-        "emergency_tel_city_prefix",
-        "emergency_tel_country_prefix",
-        "fax_prefix",
-        "fax",
-        "website",
-        "email",
-        "postal_code",
-    ]
+    class Meta:
+        model = CustomerAddress
+        proto_class = customer_pb2.SejamAddress
+        fields = [
+            "country_id",
+            "country_name",
+            "province_id",
+            "province_name",
+            "city_id",
+            "city_name",
+            "section_id",
+            "section_name",
+            "city_prefix",
+            "remnant_address",
+            "alley",
+            "plaque",
+            "tel",
+            "country_prefix",
+            "mobile",
+            "emergency_tel",
+            "emergency_tel_city_prefix",
+            "emergency_tel_country_prefix",
+            "fax_prefix",
+            "fax",
+            "website",
+            "email",
+            "postal_code",
+        ]
 
 
 class SejamPrivatePersonSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
-    model = CustomerPrivateInfo
-    proto_class = customer_pb2.SejamPrivatePerson
-    fields = [
-        "first_name",
-        "last_name",
-        "father_name",
-        "gender",
-        "seri_sh_char",
-        "seri_sh",
-        "serial",
-        "sh_number",
-        "birth_date",
-        "place_of_issue",
-        "place_of_birth",
-        "signature_file",
-    ]
+    class Meta:
+        model = CustomerPrivateInfo
+        proto_class = customer_pb2.SejamPrivatePerson
+        fields = [
+            "first_name",
+            "last_name",
+            "father_name",
+            "gender",
+            "seri_sh_char",
+            "seri_sh",
+            "serial",
+            "sh_number",
+            "birth_date",
+            "place_of_issue",
+            "place_of_birth",
+            "signature_file",
+        ]
 
 
 class SejamRegisterPrivatePersonSerializer(
@@ -188,16 +194,6 @@ class SejamRegisterPrivatePersonSerializer(
     sejam_addresses = SejamAddressSerializer(many=True)
     private_person = SejamPrivatePersonSerializer()
 
-
-#    fields = [
-#        "profile",
-#        "financial_info",
-#        "job_info",
-#        "sejam_bank_accounts",
-#        "sejam_addresses",
-#        "private_person",
-#    ]
-
     class Meta:
         proto_class = customer_pb2.SejamRegisterPrivatePersonRequest
 
@@ -209,7 +205,6 @@ class SejamRegisterPrivatePersonResponseSerializer(
     message = serializers.CharField(max_length=100)
 
     class Meta:
-
         proto_class = customer_pb2.SejamRegisterPrivatePersonResponse
 
 
@@ -229,11 +224,10 @@ class GetStateSerializer(
 class SetStateResponseSerializer(
         proto_serializers.ProtoSerializer
 ):
-    id =  serializers.IntegerField()
+    id = serializers.IntegerField()
     message = serializers.CharField(max_length=100)
 
     class Meta:
-
         proto_class = customer_pb2.SetStateResponse
 
 
@@ -241,117 +235,128 @@ class CustomerJobInfoSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
-    model = CustomerJobInfo
-    proto_class = customer_pb2.SejamJobInfo
-    fields = [
-        "employment_date",
-        "company_name",
-        "company_address",
-        "company_postal_code",
-        "company_email",
-        "company_website",
-        "company_city_prefix",
-        "company_phone",
-        "position",
-        "company_fax_prefix",
-        "company_fax",
-        "job_id",
-        "job_title",
-        "job_description",
-        "customer_id",
-    ]
+    class Meta:
+        model = CustomerJobInfo
+        proto_class = customer_pb2.JobInfoResponse
+        fields = [
+            "employment_date",
+            "company_name",
+            "company_address",
+            "company_postal_code",
+            "company_email",
+            "company_website",
+            "company_city_prefix",
+            "company_phone",
+            "position",
+            "company_fax_prefix",
+            "company_fax",
+            "job_id",
+            "job_title",
+            "job_description",
+            "customer_id",
+        ]
 
 
 class CustomerAddressInfoSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
-    model = CustomerAddress
-    proto_class = customer_pb2.PersonByAddressResponse
-    fields = [
-        "postal_code",
-        "address",
-        "mobile",
-        "fax",
-        "tel",
-        "email",
-        "province_name",
-        "city_name",
-    ]
+    class Meta:
+        model = CustomerAddress
+        proto_class = customer_pb2.PersonByAddressResponse
+        fields = [
+            "postal_code",
+            "address",
+            "mobile",
+            "fax",
+            "tel",
+            "email",
+            "province_name",
+            "city_name",
+        ]
+
 
 class BranchDataSerializer(
         proto_serializers.ModelProtoSerializer
 ):
-    model = BaseBankBranch
-    proto_class = customer_pb2.BranchData
+    class Meta:
+        model = BaseBankBranch
+        proto_class = customer_pb2.BranchData
 
-class CustomerAddressInfoSerializer(
+
+class CustomerBankAccountInfoSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
-    model = CustomerBankAccount
-    proto_class = customer_pb2.PersonBankAccount
-    fields = [
-        "account_number",
-        "rayan_bank_account_id",
-        "ba_type_name",
-        "shaba",
-        "is_default",
-        "is_active",
-        "is_online",
-        "branch_data",
-    ]
-
+    class Meta:
+        model = CustomerBankAccount
+        proto_class = customer_pb2.PersonBankAccount
+        fields = [
+            "account_number",
+            "rayan_bank_account_id",
+            "ba_type_name",
+            "shaba",
+            "is_default",
+            "is_active",
+            "is_online",
+            "branch_data",
+        ]
 
 
 class CustomerBranchDataSerializer(
         proto_serializers.ModelProtoSerializer
 ):
-    model = BaseBankBranch
-    proto_class = customer_pb2.BranchData
-    fields = [
-        "name",
-        "code",
-        "sejam_code",
-        "dl_number",
-        "bank",
-        "city",
-    ]
+    class Meta:
+        model = BaseBankBranch
+        proto_class = customer_pb2.BranchData
+        fields = [
+            "name",
+            "code",
+            "sejam_code",
+            "dl_number",
+            "bank",
+            "city",
+        ]
+
 
 class CustomerBankAccountInfoInfoSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
-    branch_data = BranchDataSerializer(read_only=True)
-    model = CustomerBankAccount
-    proto_class = customer_pb2.PersonBankAccount
-    fields = [
-        "account_number",
-        "rayan_bank_account_id",
-        "ba_type_name",
-        "shaba",
-        "is_default",
-        "is_active",
-        "is_online",
-        "branch_data",
-    ]
+    class Meta:
+        branch_data = BranchDataSerializer(read_only=True)
+        model = CustomerBankAccount
+        proto_class = customer_pb2.PersonBankAccount
+        fields = [
+            "account_number",
+            "rayan_bank_account_id",
+            "ba_type_name",
+            "shaba",
+            "is_default",
+            "is_active",
+            "is_online",
+            "branch_data",
+        ]
+
 
 class CustomerFinancialInfoInfoSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
-    model = CustomerFinancialInfo
-    proto_class = customer_pb2.PersonBankAccount
-    fields = [
-        "account_number",
-        "rayan_bank_account_id",
-        "ba_type_name",
-        "shaba",
-        "is_default",
-        "is_active",
-        "is_online",
-        "branch_data",
-    ]
+    class Meta:
+        model = CustomerFinancialInfo
+        proto_class = customer_pb2.PersonBankAccount
+        fields = [
+            "account_number",
+            "rayan_bank_account_id",
+            "ba_type_name",
+            "shaba",
+            "is_default",
+            "is_active",
+            "is_online",
+            "branch_data",
+        ]
+
 
 class FileExtensionSerializer(
         proto_serializers.ModelProtoSerializer
@@ -396,3 +401,34 @@ class PostCustomerFileSerializer(
 
     class Meta:
         proto_class = customer_pb2.PostCustomerFileResponse
+
+
+class CustomerInfoSerializer(
+        proto_serializers.ModelProtoSerializer
+):
+
+    class Meta:
+        national_id = serializers.SerializerMethodField()
+        economic_code = serializers.SerializerMethodField()
+        model = CustomerPrivateInfo
+        proto_class = customer_pb2.PersonByNationalIdResponse
+        fields = [
+            "first_name",
+            "last_name",
+            "father_name",
+            "seri_sh_char",
+            "seri_sh",
+            "serial",
+            "sh_number",
+            "birth_date",
+            "place_of_issue",
+            "place_of_birth",
+            "national_id",
+            "economic_code"
+        ]
+
+    def get_national_id(self, obj):
+        return obj.id.normal_national_code
+
+    def get_economic_code(self, obj):
+        return obj.id.normal_national_code

@@ -261,7 +261,6 @@ class CustomerService(Service):
 
     def GetState(self, request, context):
         result = []
-        import ipdb; ipdb.set_trace()
         for item in BaseState.objects.all():
             c = CustomerState.objects.filter(
                 customer__normal_national_code=request.normal_national_code,
@@ -294,31 +293,31 @@ class CustomerService(Service):
         response_serializer = SetStateResponseSerializer(result)
         return response_serializer.message
 
+
     def GetPersonJobInfo(self, request, context):
         customer = self.get_object(request.normal_national_code)
-        job = CustomerJobInfo.objects.filter(
-            customer=customer,
-            is_active=True
-        ).first()
+        job = CustomerJobInfo.objects.get(
+            customer=customer
+        )
 
         serializer = CustomerJobInfoSerializer(job)
         return serializer.message
 
     def GetPersonByAddress(self, request, context):
         customer = self.get_object(request.normal_national_code)
-        address =CustomerAddress.objects.filter(customer=customer).first()
+        address = CustomerAddress.objects.get(customer=customer)
         serializer = CustomerAddressInfoSerializer(address)
         return serializer.message
 
     def GetPersonBankAccount(self, request, context):
         customer = self.get_object(request.normal_national_code)
-        accounts =CustomerBankAccount.objects.filter(customer=customer)
+        accounts = CustomerBankAccount.objects.filter(customer=customer)
         serializer = CustomerBankAccountInfoInfoSerializer(accounts, many=True)
         return serializer.message
 
     def GetPersonFinancialInfo(self, request, context):
         customer = self.get_object(request.normal_national_code)
-        financial_info = CustomerFinancialInfo.objects.filter(customer=customer)
+        financial_info = CustomerFinancialInfo.objects.filter(customer=customer).first()
         serializer = CustomerFinancialInfoInfoSerializer(financial_info)
         return serializer.message
 
@@ -357,3 +356,10 @@ class CustomerService(Service):
         finally:
             response_serializer = PostCustomerFileSerializer(result)
             return response_serializer.message
+
+    def GetPersonByNationalId(self, request, context):
+        import ipdb; ipdb.set_trace()
+        customer = self.get_object(request.normal_national_code)
+        info = CustomerPrivateInfo.objects.filter(id=customer)
+        serializer = CustomerInfoSerializer(info)
+        return serializer.message

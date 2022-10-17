@@ -6,7 +6,7 @@ authors = ["mehdi <13610522>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-Django = "^4.0.6"
+Django = "4.0.6"
 djangorestframework = "^3.13.1"
 djangogrpcframework = "^0.2.1"
 grpcio = "^1.48.0"
@@ -17,6 +17,7 @@ ipython = "^8.4.0"
 ipdb = "^0.13.9"
 celery = "^5.2.7"
 redis = "^4.3.4"
+autopep8 = "^1.7.0"
 
 [tool.poetry.dev-dependencies]
 
