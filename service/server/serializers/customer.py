@@ -218,7 +218,7 @@ class GetStateSerializer(
     confirm = serializers.BooleanField()
 
     class Meta:
-        proto_class = customer_pb2.State
+        proto_class = customer_pb2.CustomerStateResponse
 
 
 class SetStateResponseSerializer(
@@ -253,7 +253,6 @@ class CustomerJobInfoSerializer(
             "job_id",
             "job_title",
             "job_description",
-            "customer_id",
         ]
 
 
@@ -284,113 +283,42 @@ class BranchDataSerializer(
         proto_class = customer_pb2.BranchData
 
 
-class CustomerBankAccountInfoSerializer(
-        proto_serializers.ModelProtoSerializer
-):
-
-    class Meta:
-        model = CustomerBankAccount
-        proto_class = customer_pb2.PersonBankAccount
-        fields = [
-            "account_number",
-            "rayan_bank_account_id",
-            "ba_type_name",
-            "shaba",
-            "is_default",
-            "is_active",
-            "is_online",
-            "branch_data",
-        ]
-
-
-class CustomerBranchDataSerializer(
-        proto_serializers.ModelProtoSerializer
-):
-    class Meta:
-        model = BaseBankBranch
-        proto_class = customer_pb2.BranchData
-        fields = [
-            "name",
-            "code",
-            "sejam_code",
-            "dl_number",
-            "bank",
-            "city",
-        ]
-
-
-class CustomerBankAccountInfoInfoSerializer(
-        proto_serializers.ModelProtoSerializer
-):
-
-    class Meta:
-        branch_data = BranchDataSerializer(read_only=True)
-        model = CustomerBankAccount
-        proto_class = customer_pb2.PersonBankAccount
-        fields = [
-            "account_number",
-            "rayan_bank_account_id",
-            "ba_type_name",
-            "shaba",
-            "is_default",
-            "is_active",
-            "is_online",
-            "branch_data",
-        ]
-
-
 class CustomerFinancialInfoInfoSerializer(
         proto_serializers.ModelProtoSerializer
 ):
 
     class Meta:
         model = CustomerFinancialInfo
-        proto_class = customer_pb2.PersonBankAccount
+        proto_class = customer_pb2.PersonFinancialResponse
         fields = [
-            "account_number",
-            "rayan_bank_account_id",
-            "ba_type_name",
-            "shaba",
-            "is_default",
-            "is_active",
-            "is_online",
-            "branch_data",
+            "asset_value",
+            "incoming_average",
+            "s_exchange_tranasction",
+            "c_exchange_tranasction",
+            "out_exchange_tranasction",
+            "tranasction_level",
+            "trading_knowledge_level",
+            "company_purpose",
+            "reference_rate_company",
+            "rate_date",
+            "rate",
         ]
 
 
-class FileExtensionSerializer(
-        proto_serializers.ModelProtoSerializer
-):
-    name = serializers.CharField(max_length=100)
-    real_size = serializers.IntegerField()
-    size = serializers.CharField(max_length=100)
-
-    class Meta:
-        proto_class = customer_pb2.FileExtension
-
-
 class CustomerFileSerializer(
-        proto_serializers.ModelProtoSerializer
+        proto_serializers.ProtoSerializer
 ):
-    file_extension = serializers.SerializerMethodField()
     id = serializers.IntegerField()
     name = serializers.CharField(max_length=100)
     fa_name = serializers.CharField(max_length=100)
     is_force = serializers.BooleanField()
     file_data = serializers.CharField()
+    extension_name = serializers.CharField()
+    extension_real_size = serializers.CharField()
+    extension_size = serializers.CharField()
 
     class Meta:
-        proto_class = customer_pb2.FileExtension
-
-    def get_file_extension(self, obj):
-        result = customer_pb2.FileExtension(
-            name="image/jpg, image/jpeg, image/png",
-            real_size=5 * 1024 * 1024,
-            size="5MB"
-        )
-
-        serializer = FileExtensionSerializer(result)
-        return serializer.message
+        proto_class = customer_pb2.CustomerFile
 
 
 class PostCustomerFileSerializer(
@@ -402,33 +330,42 @@ class PostCustomerFileSerializer(
     class Meta:
         proto_class = customer_pb2.PostCustomerFileResponse
 
-
 class CustomerInfoSerializer(
-        proto_serializers.ModelProtoSerializer
+        proto_serializers.ProtoSerializer
 ):
+    first_name = serializers.CharField(max_length=100)
+    last_name = serializers.CharField(max_length=100)
+    father_name = serializers.CharField(max_length=100)
+    seri_sh_char = serializers.CharField(max_length=100)
+    seri_sh = serializers.CharField(max_length=100)
+    serial = serializers.CharField(max_length=100)
+    sh_number = serializers.CharField(max_length=100)
+    birth_date = serializers.CharField(max_length=100)
+    place_of_issue = serializers.CharField(max_length=100)
+    place_of_birth = serializers.CharField(max_length=100)
+    economic_code = serializers.CharField(max_length=100)
+    national_id = serializers.CharField(max_length=100)
 
     class Meta:
-        national_id = serializers.SerializerMethodField()
-        economic_code = serializers.SerializerMethodField()
-        model = CustomerPrivateInfo
         proto_class = customer_pb2.PersonByNationalIdResponse
-        fields = [
-            "first_name",
-            "last_name",
-            "father_name",
-            "seri_sh_char",
-            "seri_sh",
-            "serial",
-            "sh_number",
-            "birth_date",
-            "place_of_issue",
-            "place_of_birth",
-            "national_id",
-            "economic_code"
-        ]
 
-    def get_national_id(self, obj):
-        return obj.id.normal_national_code
 
-    def get_economic_code(self, obj):
-        return obj.id.normal_national_code
+class AccountSerializer(
+        proto_serializers.ProtoSerializer
+):
+    rayan_bank_account_id = serializers.IntegerField()
+    account_number = serializers.CharField(max_length=100)
+    ba_type_name = serializers.CharField(max_length=100)
+    is_default = serializers.BooleanField()
+    is_active = serializers.BooleanField()
+    is_online = serializers.BooleanField()
+    sheba = serializers.CharField(max_length=100)
+    branch_name = serializers.CharField(max_length=100)
+    branch_code = serializers.CharField(max_length=100)
+    sejam_branch_code = serializers.CharField(max_length=100)
+    dl_number = serializers.CharField(max_length=100)
+    bank = serializers.CharField(max_length=100)
+    city = serializers.CharField(max_length=100)
+
+    class Meta:
+        proto_class = customer_pb2.Account

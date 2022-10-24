@@ -12,12 +12,12 @@ service CustomerController {
     rpc Destroy(Customer) returns (google.protobuf.Empty) {}
     rpc GetActiveMobile(CustomerRetrieveRequest) returns (CustomerPhone) {}
     rpc SejamRegisterPrivatePerson (SejamRegisterPrivatePersonRequest) returns (SejamRegisterPrivatePersonResponse) {}
-    rpc GetState(StateRequest) returns (stream State) {}
+    rpc GetCustomerState(CustomerStateRequest) returns (stream CustomerStateResponse) {}
     rpc SetState(SetStateRequest) returns (SetStateResponse) {}
     rpc GetPersonJobInfo (PersonByNationalIdRequest) returns (JobInfoResponse) {}
     rpc GetPersonByNationalId (PersonByNationalIdRequest) returns (PersonByNationalIdResponse) {}
     rpc GetPersonByAddress (PersonByNationalIdRequest) returns (PersonByAddressResponse) {}
-    rpc GetPersonBankAccount (PersonByNationalIdRequest) returns (stream PersonBankAccount) {}
+    rpc GetPersonBankAccount (PersonByNationalIdRequest) returns (stream Account) {}
     rpc GetPersonFinancialInfo (PersonByNationalIdRequest) returns (PersonFinancialResponse) {}
     rpc CustomerGetFile (PersonByNationalIdRequest) returns (stream CustomerFile) {}
     rpc CustomerPostFile (PostCustomerFile) returns (PostCustomerFileResponse) {}
@@ -163,11 +163,11 @@ message SejamRegisterPrivatePersonResponse {
         string message = 2;
 }
 
-message StateRequest {
-        string normal_national_code = 1;
+message CustomerStateRequest {
+        string national_code = 1;
 }
 
-message State {
+message CustomerStateResponse {
         string state_name = 1;
         string title = 2;
         string icon_class = 3;
@@ -235,16 +235,6 @@ message PersonByAddressResponse {
 	string city_name = 8;
 }
 
-message PersonBankAccount {
-	string account_number = 1;
-	string rayan_bank_account_id = 2;
-	string ba_type_name = 3;
-	string shaba = 4;
-	int64 is_default = 5;
-	bool is_active = 6;
-	int64 is_online = 7;
-	BranchData branch_data = 8;
-}
 
 message BranchData {
     string name = 1;
@@ -256,11 +246,11 @@ message BranchData {
 }
 
 message PersonFinancialResponse {
-	int64 assets_value = 1;
-	int64 incoming_average = 2;
-	int64 s_exchange_transaction = 3;
-	int64 c_exchange_transaction = 4;
-	int64 out_exchange_transaction = 5;
+	int64 asset_value = 1;
+	int32 incoming_average = 2;
+	int32 s_exchange_transaction = 3;
+	int32 c_exchange_transaction = 4;
+	int32 out_exchange_transaction = 5;
 	string transaction_level = 6;
 	string trading_knowledge_level = 7;
 	string company_purpose = 8;
@@ -281,7 +271,9 @@ message CustomerFile {
         string fa_name = 3;
         bool is_force = 4;
         string file_data = 5;
-        FileExtension file_extension = 6;
+        string extension_name = 6;
+        int32 extension_real_size = 7;
+        string extension_size = 8;
 }
 
 message PostCustomerFile {
@@ -293,4 +285,20 @@ message PostCustomerFile {
 message PostCustomerFileResponse {
         int32 id = 1;
         string message = 2;
+}
+
+message Account {
+        int32 rayan_bank_account_id = 1;
+        string account_number  = 2;
+        string ba_type_name = 3;
+        string sheba = 4;
+        bool is_default = 5;
+        bool is_active = 6;
+        bool is_online = 7;
+        string branch_name = 8;
+        string branch_code = 9;
+        string sejam_branch_code = 10;
+        string dl_number = 11;
+        string bank = 12;
+        string city = 13;
 }

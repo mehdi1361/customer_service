@@ -9,9 +9,9 @@ from service.server.serializers import BankProtoSerializer, \
     CustomerActiveMobileProtoSerializer, SejamRegisterPrivatePersonSerializer, \
     SejamRegisterPrivatePersonResponseSerializer, \
     GetStateSerializer, SetStateResponseSerializer, CustomerJobInfoSerializer, \
-    CustomerAddressInfoSerializer, CustomerBankAccountInfoInfoSerializer, \
+    CustomerAddressInfoSerializer, \
     CustomerFinancialInfoInfoSerializer, CustomerFileSerializer, \
-    PostCustomerFileSerializer
+    PostCustomerFileSerializer, CustomerInfoSerializer, AccountSerializer
 from django_grpc_framework import generics
 from customer.models import CustomerComexVisitor, Customer, CustomerPhonePerson, \
     CustomerFinancialInfo, CustomerJobInfo, CustomerBankAccount, \
@@ -259,14 +259,16 @@ class CustomerService(Service):
         return response_serializer.message
 
 
-    def GetState(self, request, context):
+    def GetCustomerState(self, request, context):
+        customer = self.get_object(request.national_code)
+
         result = []
         for item in BaseState.objects.all():
             c = CustomerState.objects.filter(
-                customer__normal_national_code=request.normal_national_code,
+                customer=customer,
                 state=item
             ).first()
-            result.append(customer_pb2.State(
+            result.append(customer_pb2.CustomerStateResponse(
                 state_name=item.state_name,
                 title=item.title,
                 icon_class=item.icon_class,
@@ -275,12 +277,13 @@ class CustomerService(Service):
             ))
 
         response_serialzer = GetStateSerializer(result, many=True)
-        return response_serialzer.message
 
+        for msg in response_serialzer.message:
+            yield msg
 
     def SetState(self, request, context):
         state = BaseState.objects.get(id=request.state_id)
-        customer = Customer.objects.get(id=request.normal_national_code)
+        customer = Customer.objects.get(normal_national_code=request.normal_national_code)
 
         customer_state, _ = CustomerState.objects.get_or_create(
             customer=customer,
@@ -311,9 +314,26 @@ class CustomerService(Service):
 
     def GetPersonBankAccount(self, request, context):
         customer = self.get_object(request.normal_national_code)
-        accounts = CustomerBankAccount.objects.filter(customer=customer)
-        serializer = CustomerBankAccountInfoInfoSerializer(accounts, many=True)
-        return serializer.message
+        accounts = CustomerBankAccount.objects.select_related('branch').filter(customer=customer)
+        result = []
+        for account in accounts:
+            result.append(customer_pb2.Account(
+                rayan_bank_account_id=account.rayan_bank_account_id,
+                account_number=account.account_number,
+                ba_type_name=account.ba_type_name,
+                is_default=True if account.is_default is not None else False,
+                is_active=True if account.is_active is not None else False,
+                is_online=True if account.is_online is not None else False,
+                sheba=account.sheba,
+                branch_name=account.branch.name,
+                branch_code=account.branch.code,
+                dl_number=account.branch.dl_number,
+                bank=account.branch.bank.title,
+                city=account.branch.city.name
+            ))
+        serializer = AccountSerializer(result, many=True)
+        for message in serializer.message:
+            yield message
 
     def GetPersonFinancialInfo(self, request, context):
         customer = self.get_object(request.normal_national_code)
@@ -330,11 +350,14 @@ class CustomerService(Service):
                 id=item.id,
                 name=item.name,
                 fa_name=item.fa_name,
-                file_data=None if c_file is None else c_file.file_data
+                file_data=None if c_file is None else c_file.file_data,
+                extension_name="image/jpg, image/jpeg, image/png",
+                extension_real_size=5*1024*1024,
+                extension_size="5MB"
             ))
 
-        serializer = CustomerFileSerializer(result, many=True)
-        return serializer.message
+        for message in CustomerFileSerializer(result, many=True).message:
+            yield message
 
     def CustomerPostFile(self, request, context):
         try:
@@ -358,8 +381,22 @@ class CustomerService(Service):
             return response_serializer.message
 
     def GetPersonByNationalId(self, request, context):
-        import ipdb; ipdb.set_trace()
         customer = self.get_object(request.normal_national_code)
-        info = CustomerPrivateInfo.objects.filter(id=customer)
-        serializer = CustomerInfoSerializer(info)
-        return serializer.message
+        info = CustomerPrivateInfo.objects.filter(id=customer).first()
+
+        result = customer_pb2.PersonByNationalIdResponse(
+            first_name=info.first_name,
+            last_name=info.last_name,
+            father_name=info.father_name,
+            seri_sh_char=info.seri_sh_char,
+            seri_sh=info.seri_sh,
+            serial=info.serial,
+            sh_number=info.sh_number,
+            birth_date=info.birth_date,
+            place_of_issue=info.place_of_issue,
+            place_of_birth=info.place_of_birth,
+            economic_code="",
+            national_id=customer.normal_national_code,
+        )
+        response_serializer = CustomerInfoSerializer(result)
+        return response_serializer.message

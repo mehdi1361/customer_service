@@ -50,10 +50,10 @@ class CustomerControllerStub(object):
                 request_serializer=customer__pb2.SejamRegisterPrivatePersonRequest.SerializeToString,
                 response_deserializer=customer__pb2.SejamRegisterPrivatePersonResponse.FromString,
                 )
-        self.GetState = channel.unary_stream(
-                '/customer.CustomerController/GetState',
-                request_serializer=customer__pb2.StateRequest.SerializeToString,
-                response_deserializer=customer__pb2.State.FromString,
+        self.GetCustomerState = channel.unary_stream(
+                '/customer.CustomerController/GetCustomerState',
+                request_serializer=customer__pb2.CustomerStateRequest.SerializeToString,
+                response_deserializer=customer__pb2.CustomerStateResponse.FromString,
                 )
         self.SetState = channel.unary_unary(
                 '/customer.CustomerController/SetState',
@@ -78,7 +78,7 @@ class CustomerControllerStub(object):
         self.GetPersonBankAccount = channel.unary_stream(
                 '/customer.CustomerController/GetPersonBankAccount',
                 request_serializer=customer__pb2.PersonByNationalIdRequest.SerializeToString,
-                response_deserializer=customer__pb2.PersonBankAccount.FromString,
+                response_deserializer=customer__pb2.Account.FromString,
                 )
         self.GetPersonFinancialInfo = channel.unary_unary(
                 '/customer.CustomerController/GetPersonFinancialInfo',
@@ -142,7 +142,7 @@ class CustomerControllerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def GetState(self, request, context):
+    def GetCustomerState(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -234,10 +234,10 @@ def add_CustomerControllerServicer_to_server(servicer, server):
                     request_deserializer=customer__pb2.SejamRegisterPrivatePersonRequest.FromString,
                     response_serializer=customer__pb2.SejamRegisterPrivatePersonResponse.SerializeToString,
             ),
-            'GetState': grpc.unary_stream_rpc_method_handler(
-                    servicer.GetState,
-                    request_deserializer=customer__pb2.StateRequest.FromString,
-                    response_serializer=customer__pb2.State.SerializeToString,
+            'GetCustomerState': grpc.unary_stream_rpc_method_handler(
+                    servicer.GetCustomerState,
+                    request_deserializer=customer__pb2.CustomerStateRequest.FromString,
+                    response_serializer=customer__pb2.CustomerStateResponse.SerializeToString,
             ),
             'SetState': grpc.unary_unary_rpc_method_handler(
                     servicer.SetState,
@@ -262,7 +262,7 @@ def add_CustomerControllerServicer_to_server(servicer, server):
             'GetPersonBankAccount': grpc.unary_stream_rpc_method_handler(
                     servicer.GetPersonBankAccount,
                     request_deserializer=customer__pb2.PersonByNationalIdRequest.FromString,
-                    response_serializer=customer__pb2.PersonBankAccount.SerializeToString,
+                    response_serializer=customer__pb2.Account.SerializeToString,
             ),
             'GetPersonFinancialInfo': grpc.unary_unary_rpc_method_handler(
                     servicer.GetPersonFinancialInfo,
@@ -409,7 +409,7 @@ class CustomerController(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def GetState(request,
+    def GetCustomerState(request,
             target,
             options=(),
             channel_credentials=None,
@@ -419,9 +419,9 @@ class CustomerController(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_stream(request, target, '/customer.CustomerController/GetState',
-            customer__pb2.StateRequest.SerializeToString,
-            customer__pb2.State.FromString,
+        return grpc.experimental.unary_stream(request, target, '/customer.CustomerController/GetCustomerState',
+            customer__pb2.CustomerStateRequest.SerializeToString,
+            customer__pb2.CustomerStateResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -506,7 +506,7 @@ class CustomerController(object):
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/customer.CustomerController/GetPersonBankAccount',
             customer__pb2.PersonByNationalIdRequest.SerializeToString,
-            customer__pb2.PersonBankAccount.FromString,
+            customer__pb2.Account.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

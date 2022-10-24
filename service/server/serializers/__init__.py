@@ -8,6 +8,5 @@ from .customer import CustomerProtoSerializer, \
     SejamRegisterPrivatePersonResponseSerializer, \
     GetStateSerializer, SetStateResponseSerializer, \
     CustomerJobInfoSerializer, CustomerAddressInfoSerializer, \
-    CustomerBankAccountInfoInfoSerializer, \
     CustomerFileSerializer, CustomerFinancialInfoInfoSerializer, \
-    PostCustomerFileSerializer
+    PostCustomerFileSerializer, CustomerInfoSerializer, AccountSerializer

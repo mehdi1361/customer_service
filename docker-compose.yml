@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  customer_service_242_master:
+    image: customer_service_img:latest
+    command: sh -c "python3 manage.py grpcrunserver 0.0.0.0:3000"
+    environment:
+      - admin_back_api_manage_py=.server.env
+
+    volumes:
+      - ./log:/var/log
+    container_name: customer_service_242_master
+
+    ports:
+      - 3000:3000
+
+  customer_service_242_cron:
+    image: customer_service_img:latest
+    command: sh -c "cron -f"
+
+    environment:
+      - customer_service_manage_py=.server.env
+
+    volumes:
+      - ./log:/var/log
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+
+    container_name: customer_service_242_cron
+
+  customer_service_242_dev1_master:
+    image: customer_service_img:latest
+    command: sh -c "python3 manage.py grpcrunserver 0.0.0.0:9000 --dev"
+    environment:
+      - customer_service_manage_py=.env
+
+    volumes:
+      - ./log:/var/log
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+
+    container_name: customer_service_242_dev1_master
+
+    ports:
+      - 9000:9000

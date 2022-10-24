@@ -1,0 +1,15 @@
+update-alternatives 2022-10-15 06:46:17: run with --install /lib/firmware/regulatory.db regulatory.db /lib/firmware/regulatory.db-debian 100 --slave /lib/firmware/regulatory.db.p7s regulatory.db.p7s /lib/firmware/regulatory.db.p7s-debian
+update-alternatives 2022-10-15 06:46:17: link group regulatory.db updated to point to /lib/firmware/regulatory.db-debian
+update-alternatives 2022-10-15 06:46:17: run with --install /lib/firmware/regulatory.db regulatory.db /lib/firmware/regulatory.db-upstream 50 --slave /lib/firmware/regulatory.db.p7s regulatory.db.p7s /lib/firmware/regulatory.db.p7s-upstream
+update-alternatives 2022-10-15 06:46:20: run with --install /usr/sbin/iptables iptables /usr/sbin/iptables-legacy 10 --slave /usr/sbin/iptables-restore iptables-restore /usr/sbin/iptables-legacy-restore --slave /usr/sbin/iptables-save iptables-save /usr/sbin/iptables-legacy-save
+update-alternatives 2022-10-15 06:46:20: link group iptables updated to point to /usr/sbin/iptables-legacy
+update-alternatives 2022-10-15 06:46:20: run with --install /usr/sbin/ip6tables ip6tables /usr/sbin/ip6tables-legacy 10 --slave /usr/sbin/ip6tables-restore ip6tables-restore /usr/sbin/ip6tables-legacy-restore --slave /usr/sbin/ip6tables-save ip6tables-save /usr/sbin/ip6tables-legacy-save
+update-alternatives 2022-10-15 06:46:20: link group ip6tables updated to point to /usr/sbin/ip6tables-legacy
+update-alternatives 2022-10-15 06:46:20: run with --install /usr/sbin/iptables iptables /usr/sbin/iptables-nft 20 --slave /usr/sbin/iptables-restore iptables-restore /usr/sbin/iptables-nft-restore --slave /usr/sbin/iptables-save iptables-save /usr/sbin/iptables-nft-save
+update-alternatives 2022-10-15 06:46:20: link group iptables updated to point to /usr/sbin/iptables-nft
+update-alternatives 2022-10-15 06:46:20: run with --install /usr/sbin/ip6tables ip6tables /usr/sbin/ip6tables-nft 20 --slave /usr/sbin/ip6tables-restore ip6tables-restore /usr/sbin/ip6tables-nft-restore --slave /usr/sbin/ip6tables-save ip6tables-save /usr/sbin/ip6tables-nft-save
+update-alternatives 2022-10-15 06:46:20: link group ip6tables updated to point to /usr/sbin/ip6tables-nft
+update-alternatives 2022-10-15 06:46:20: run with --install /usr/sbin/arptables arptables /usr/sbin/arptables-nft 20 --slave /usr/sbin/arptables-restore arptables-restore /usr/sbin/arptables-nft-restore --slave /usr/sbin/arptables-save arptables-save /usr/sbin/arptables-nft-save
+update-alternatives 2022-10-15 06:46:20: link group arptables updated to point to /usr/sbin/arptables-nft
+update-alternatives 2022-10-15 06:46:20: run with --install /usr/sbin/ebtables ebtables /usr/sbin/ebtables-nft 20 --slave /usr/sbin/ebtables-restore ebtables-restore /usr/sbin/ebtables-nft-restore --slave /usr/sbin/ebtables-save ebtables-save /usr/sbin/ebtables-nft-save
+update-alternatives 2022-10-15 06:46:20: link group ebtables updated to point to /usr/sbin/ebtables-nft
