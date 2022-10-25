@@ -350,6 +350,7 @@ class CustomerService(Service):
                 id=item.id,
                 name=item.name,
                 fa_name=item.fa_name,
+                is_force=item.is_force,
                 file_data=None if c_file is None else c_file.file_data,
                 extension_name="image/jpg, image/jpeg, image/png",
                 extension_real_size=5*1024*1024,
@@ -362,19 +363,19 @@ class CustomerService(Service):
     def CustomerPostFile(self, request, context):
         try:
             customer = self.get_object(request.normal_national_code)
-            file_type = BaseFileType.objects.get(id=request.file_type_id)
+            file_type = BaseFileType.objects.get(name=request.file_type_name)
             c, created = CustomerFile.objects.get_or_create(
                 customer=customer,
-                file_rtype=file_type,
+                file_type=file_type,
                 defaults={"file_data": request.file_data}
             )
             if not created:
                 c.file_data = request.file_data
                 c.save()
 
-                result = customer_pb2.PostCustomerFileResponse(id=200, message="اطلاعات با موفقیت ذخیره  شد")
+            result = customer_pb2.PostCustomerFileResponse(id=200, message="اطلاعات با موفقیت ذخیره  شد")
         except Exception as e:
-                result = customer_pb2.PostCustomerFileResponse(id=400, message="خطا در ثبت اطلاعات")
+            result = customer_pb2.PostCustomerFileResponse(id=400, message="خطا در ثبت اطلاعات")
 
         finally:
             response_serializer = PostCustomerFileSerializer(result)

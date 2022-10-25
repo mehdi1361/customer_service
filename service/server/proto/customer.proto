@@ -278,7 +278,7 @@ message CustomerFile {
 
 message PostCustomerFile {
         string normal_national_code = 1;
-        int32 file_type_id = 2;
+        string file_type_name = 2;
         string file_data = 3;
 }
 
