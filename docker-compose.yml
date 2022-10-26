@@ -3,7 +3,7 @@ version: '3.8'
 services:
   customer_service_242_master:
     image: customer_service_img:latest
-    command: sh -c "python3 manage.py grpcrunserver 0.0.0.0:3000"
+    command: sh -c "python3 manage.py grpcrunserver 0.0.0.0:9000"
     environment:
       - admin_back_api_manage_py=.server.env
 
@@ -12,7 +12,7 @@ services:
     container_name: customer_service_242_master
 
     ports:
-      - 3000:3000
+      - 9000:9000
 
   customer_service_242_cron:
     image: customer_service_img:latest
