@@ -14,12 +14,15 @@ from pathlib import Path
 
 import environ
 import os
-# Initialise environment variables
 env = environ.Env()
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-env.read_env(os.path.join(BASE_DIR, '.env'))
+env_file = os.environ.get('customer_service_manage_py')
+
+if env_file is None:
+    env.read_env(os.path.join(BASE_DIR, '.server.env'))
+else:
+    env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 
 # Quick-start development settings - unsuitable for production
