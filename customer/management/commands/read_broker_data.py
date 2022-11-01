@@ -111,7 +111,7 @@ class Command(BaseCommand):
                 )
 
                 customer_account, _ = CustomerBankAccount.objects.get_or_create(
-                    shaba=item.shabaNumber,
+                    sheba=item.shabaNumber,
                     defaults={
                         "branch": branch,
                         "account_number": item.bankAccountNumber,
