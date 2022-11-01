@@ -22,7 +22,7 @@
 #
 # m h  dom mon dow   command
 
-0 21 * * * cd / && /usr/local/bin/python3 manage.py read_broker_data >> /var/log/read_broker_data.log
-15 21 * * * cd / && /usr/local/bin/python3 manage.py read_fund_data >> /var/log/read_fund_data.log
+30 12 * * * cd / && /usr/local/bin/python3 manage.py read_broker_data >> /var/log/read_broker_data.log
+35 12 * * * cd / && /usr/local/bin/python3 manage.py read_fund_data >> /var/log/read_fund_data.log
 
 #docker build -d <image_name> <docker file address default .>
