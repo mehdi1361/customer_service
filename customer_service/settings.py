@@ -18,8 +18,8 @@ env = environ.Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 env_file = os.environ.get('customer_service_manage_py')
 
-if env_file is None:
-    env.read_env(os.path.join(BASE_DIR, '.server.env'))
+if env_file is not None:
+    env.read_env(os.path.join(BASE_DIR, env_file))
 else:
     env.read_env(os.path.join(BASE_DIR, '.env'))
 
