@@ -6,7 +6,7 @@ from service.client.rayan.infrastructure.rayan_pb2_grpc import RecommendationsSt
 
 def load_env():
     env = environ.Env()
-    env.read_env(os.path.join(settings.BASE_DIR, '.env'))
+    env.read_env(os.path.join(settings.BASE_DIR, '.server.env'))
     return env
 
 def client_connection():
