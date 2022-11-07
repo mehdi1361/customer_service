@@ -95,6 +95,16 @@ class CustomerControllerStub(object):
                 request_serializer=customer__pb2.PostCustomerFile.SerializeToString,
                 response_deserializer=customer__pb2.PostCustomerFileResponse.FromString,
                 )
+        self.LoginByNationalId = channel.unary_unary(
+                '/customer.CustomerController/LoginByNationalId',
+                request_serializer=customer__pb2.LoginByNationalIdRequest.SerializeToString,
+                response_deserializer=customer__pb2.LoginStateResponse.FromString,
+                )
+        self.CustomerVerified = channel.unary_unary(
+                '/customer.CustomerController/CustomerVerified',
+                request_serializer=customer__pb2.CustomerVerifiedRequest.SerializeToString,
+                response_deserializer=customer__pb2.StateResponse.FromString,
+                )
 
 
 class CustomerControllerServicer(object):
@@ -196,6 +206,18 @@ class CustomerControllerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def LoginByNationalId(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CustomerVerified(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_CustomerControllerServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -278,6 +300,16 @@ def add_CustomerControllerServicer_to_server(servicer, server):
                     servicer.CustomerPostFile,
                     request_deserializer=customer__pb2.PostCustomerFile.FromString,
                     response_serializer=customer__pb2.PostCustomerFileResponse.SerializeToString,
+            ),
+            'LoginByNationalId': grpc.unary_unary_rpc_method_handler(
+                    servicer.LoginByNationalId,
+                    request_deserializer=customer__pb2.LoginByNationalIdRequest.FromString,
+                    response_serializer=customer__pb2.LoginStateResponse.SerializeToString,
+            ),
+            'CustomerVerified': grpc.unary_unary_rpc_method_handler(
+                    servicer.CustomerVerified,
+                    request_deserializer=customer__pb2.CustomerVerifiedRequest.FromString,
+                    response_serializer=customer__pb2.StateResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -558,5 +590,39 @@ class CustomerController(object):
         return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/CustomerPostFile',
             customer__pb2.PostCustomerFile.SerializeToString,
             customer__pb2.PostCustomerFileResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def LoginByNationalId(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/LoginByNationalId',
+            customer__pb2.LoginByNationalIdRequest.SerializeToString,
+            customer__pb2.LoginStateResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CustomerVerified(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/CustomerVerified',
+            customer__pb2.CustomerVerifiedRequest.SerializeToString,
+            customer__pb2.StateResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

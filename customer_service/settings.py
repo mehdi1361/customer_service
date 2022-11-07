@@ -14,14 +14,14 @@ from pathlib import Path
 
 import environ
 import os
-env = environ.Env()
+ENV = environ.Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 env_file = os.environ.get('customer_service_manage_py')
 
 if env_file is not None:
-    env.read_env(os.path.join(BASE_DIR, env_file))
+    ENV.read_env(os.path.join(BASE_DIR, env_file))
 else:
-    env.read_env(os.path.join(BASE_DIR, '.env'))
+    ENV.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 
@@ -87,11 +87,11 @@ WSGI_APPLICATION = 'customer_service.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_SERVER'),
-        'PORT': env('DB_PORT'),
+        'NAME': ENV('DB_NAME'),
+        'USER': ENV('DB_USER'),
+        'PASSWORD': ENV('DB_PASSWORD'),
+        'HOST': ENV('DB_SERVER'),
+        'PORT': ENV('DB_PORT'),
         'CONN_MAX_AGE': 60,
     }
 }

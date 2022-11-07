@@ -369,3 +369,24 @@ class AccountSerializer(
 
     class Meta:
         proto_class = customer_pb2.Account
+
+
+class LoginByNationalResponseSerializer(
+        proto_serializers.ProtoSerializer
+):
+    id = serializers.IntegerField()
+    message = serializers.CharField(max_length=100)
+
+    class Meta:
+        proto_class = customer_pb2.LoginStateResponse
+
+
+class CustomerVerifiedSerializer(
+        proto_serializers.ProtoSerializer
+):
+
+    id = serializers.IntegerField()
+    message = serializers.CharField(max_length=100)
+
+    class Meta:
+        proto_class = customer_pb2.StateResponse

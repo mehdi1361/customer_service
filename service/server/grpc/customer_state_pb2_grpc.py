@@ -2,8 +2,8 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import customer_state_pb2 as customer__state__pb2
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
+from service.server.grpc import customer_state_pb2 as customer__state__pb2
 
 
 class CustomerStateControllerStub(object):

@@ -1,7 +1,10 @@
+import random
 from django.db import models
 from base.models import Base, BaseJob, BaseBankBranch, BaseMebbcoBranch, BaseFileType, BaseState
+from django.db import transaction
+from service.client.sms.sender import send_sms
 
-# Create your models here.
+
 class BaseMebbcoCustomerGroup(Base):
     title = models.CharField(max_length=10, blank=True, null=True)
     rayan_id = models.BigIntegerField(blank=True, null=True)
@@ -311,3 +314,19 @@ class CustomerVerification(Base):
 
     class Meta:
         db_table = 'customer_verification'
+
+    @staticmethod
+    def send_verification_code(customer, phone):
+       with transaction.atomic():
+           CustomerVerification.objects.filter(customer=customer).update(is_active=False)
+           verification_code = random.randint(1000, 9999)
+           CustomerVerification.objects.create(
+               customer=customer,
+               code=verification_code,
+               is_active=True
+           )
+
+           return send_sms(
+               phone_number=phone.phone_number,
+               verification_code=verification_code
+           )

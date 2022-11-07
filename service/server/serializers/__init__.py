@@ -9,4 +9,5 @@ from .customer import CustomerProtoSerializer, \
     GetStateSerializer, SetStateResponseSerializer, \
     CustomerJobInfoSerializer, CustomerAddressInfoSerializer, \
     CustomerFileSerializer, CustomerFinancialInfoInfoSerializer, \
-    PostCustomerFileSerializer, CustomerInfoSerializer, AccountSerializer
+    PostCustomerFileSerializer, CustomerInfoSerializer, AccountSerializer, \
+    LoginByNationalResponseSerializer, CustomerVerifiedSerializer

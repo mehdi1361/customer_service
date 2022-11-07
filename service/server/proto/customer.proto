@@ -21,6 +21,10 @@ service CustomerController {
     rpc GetPersonFinancialInfo (PersonByNationalIdRequest) returns (PersonFinancialResponse) {}
     rpc CustomerGetFile (PersonByNationalIdRequest) returns (stream CustomerFile) {}
     rpc CustomerPostFile (PostCustomerFile) returns (PostCustomerFileResponse) {}
+    rpc LoginByNationalId (LoginByNationalIdRequest) returns (LoginStateResponse) {}
+    rpc CustomerVerified (CustomerVerifiedRequest) returns (StateResponse) {}
+
+
 }
 
 message Customer {
@@ -301,4 +305,22 @@ message Account {
         string dl_number = 11;
         string bank = 12;
         string city = 13;
+}
+
+message LoginByNationalIdRequest {
+        string national_id = 1;
+}
+
+message LoginStateResponse {
+        int32 id = 1;
+        string message = 2;
+}
+message StateResponse {
+        int32 id = 1;
+        string message = 2;
+}
+
+message CustomerVerifiedRequest {
+        string verification_code = 1;
+        string normal_national_code = 2;
 }
