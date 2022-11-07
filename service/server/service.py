@@ -1,4 +1,6 @@
 import grpc
+
+from datetime import datetime, timezone
 from google.protobuf import empty_pb2
 from django_grpc_framework.services import Service
 from base.models import BaseBank, BaseProvince, BaseCities, BaseBankBranch, \
@@ -11,14 +13,15 @@ from service.server.serializers import BankProtoSerializer, \
     GetStateSerializer, SetStateResponseSerializer, CustomerJobInfoSerializer, \
     CustomerAddressInfoSerializer, \
     CustomerFinancialInfoInfoSerializer, CustomerFileSerializer, \
-    PostCustomerFileSerializer, CustomerInfoSerializer, AccountSerializer
+    PostCustomerFileSerializer, CustomerInfoSerializer, AccountSerializer, \
+    LoginByNationalResponseSerializer, CustomerVerifiedSerializer
 from django_grpc_framework import generics
 from customer.models import CustomerComexVisitor, Customer, CustomerPhonePerson, \
     CustomerFinancialInfo, CustomerJobInfo, CustomerBankAccount, \
-    CustomerAddress, CustomerPrivateInfo, CustomerState, CustomerJobInfo, CustomerFile
+    CustomerAddress, CustomerPrivateInfo, CustomerState, CustomerJobInfo, \
+    CustomerFile, CustomerVerification
 from django.db import transaction
 from service.server.grpc import customer_pb2
-
 
 
 class BankService(Service):
@@ -38,7 +41,8 @@ class BankService(Service):
         try:
             return BaseBank.objects.get(pk=pk)
         except BaseBank.DoesNotExist:
-            self.context.abort(grpc.StatusCode.NOT_FOUND, 'Post:%s not found!' % pk)
+            self.context.abort(grpc.StatusCode.NOT_FOUND,
+                               'Post:%s not found!' % pk)
 
     def Retrieve(self, request, context):
         bank = self.get_object(request.id)
@@ -59,19 +63,18 @@ class BankService(Service):
 
 
 class ProvinceService(generics.ModelService):
-   queryset = BaseProvince.objects.all()
-   serializer_class = ProvinceProtoSerializer
+    queryset = BaseProvince.objects.all()
+    serializer_class = ProvinceProtoSerializer
 
 
 class CityService(generics.ModelService):
-   queryset = BaseCities.objects.all()
-   serializer_class = CityProtoSerializer
+    queryset = BaseCities.objects.all()
+    serializer_class = CityProtoSerializer
 
 
 class CustomerComexVisitorService(generics.ModelService):
-   queryset = CustomerComexVisitor.objects.all()
-   serializer_class = CustomerComexVisitorProtoSerializer
-
+    queryset = CustomerComexVisitor.objects.all()
+    serializer_class = CustomerComexVisitorProtoSerializer
 
 
 class CustomerService(Service):
@@ -91,7 +94,8 @@ class CustomerService(Service):
         try:
             return Customer.objects.get(normal_national_code=national_code)
         except Customer.DoesNotExist:
-            self.context.abort(grpc.StatusCode.NOT_FOUND, 'customer:%s not found!' % national_code)
+            self.context.abort(grpc.StatusCode.NOT_FOUND,
+                               'customer:%s not found!' % national_code)
 
     def Retrieve(self, request, context):
         customer = self.get_object(request.national_code)
@@ -121,19 +125,17 @@ class CustomerService(Service):
 
     def SejamRegisterPrivatePerson(self, request, context):
         with transaction.atomic():
-            customer, _ =Customer.objects.get_or_create(
+            customer, _ = Customer.objects.get_or_create(
                 normal_national_code=request.profile.normal_national_code,
-                defaults= {
+                defaults={
                     "sejam_type": request.profile.sejam_type,
                     "is_sejami": True
                 }
             )
 
-
-
             CustomerFinancialInfo.objects.get_or_create(
                 customer=customer,
-                defaults= {
+                defaults={
                     "asset_value": request.financial_info.assets_value,
                     "incoming_average": request.financial_info.incoming_average,
                     "s_exchange_tranasction": request.financial_info.s_exchange_transaction,
@@ -162,7 +164,7 @@ class CustomerService(Service):
                     "position": request.job_info.position,
                     "company_fax_prefix": request.job_info.company_fax_prefix,
                     "company_fax": request.job_info.company_fax,
-                  #  "job": request.job_info.job_id,
+                    #  "job": request.job_info.job_id,
                     "job_title": request.job_info.job_title,
                     "job_description": request.job_info.job_description
 
@@ -194,10 +196,9 @@ class CustomerService(Service):
                     defaults={
                         "ba_type_name": item.account_type,
                         "sheba": item.sheba,
-                        "branch":branch
+                        "branch": branch
                     }
                 )
-
 
         for item in request.sejam_addresses:
             CustomerAddress.objects.get_or_create(
@@ -218,7 +219,7 @@ class CustomerService(Service):
                     "plaque": item.plaque,
                     "tel": item.tel,
                     "country_prefix": item.country_prefix,
-                    "mobile":item.mobile,
+                    "mobile": item.mobile,
                     "emergency_tel": item.emergency_tel,
                     "emergency_tel_city_prefix": item.emergency_tel_city_prefix,
                     "emergency_tel_country_prefix": item.emergency_tel_country_prefix,
@@ -240,7 +241,7 @@ class CustomerService(Service):
 
         CustomerPrivateInfo.objects.get_or_create(
             id=customer,
-            defaults= {
+            defaults={
                 "first_name": request.private_person.first_name,
                 "last_name": request.private_person.last_name,
                 "father_name": request.private_person.father_name,
@@ -254,10 +255,11 @@ class CustomerService(Service):
                 "place_of_birth": request.private_person.place_of_birth,
             }
         )
-        result = customer_pb2.SejamRegisterPrivatePersonResponse(id=200, message="اطلاعات با موفقیت ذخیره  شد")
-        response_serializer = SejamRegisterPrivatePersonResponseSerializer(result)
+        result = customer_pb2.SejamRegisterPrivatePersonResponse(
+            id=200, message="اطلاعات با موفقیت ذخیره  شد")
+        response_serializer = SejamRegisterPrivatePersonResponseSerializer(
+            result)
         return response_serializer.message
-
 
     def GetCustomerState(self, request, context):
         customer = self.get_object(request.national_code)
@@ -283,19 +285,20 @@ class CustomerService(Service):
 
     def SetState(self, request, context):
         state = BaseState.objects.get(id=request.state_id)
-        customer = Customer.objects.get(normal_national_code=request.normal_national_code)
+        customer = Customer.objects.get(
+            normal_national_code=request.normal_national_code)
 
         customer_state, _ = CustomerState.objects.get_or_create(
             customer=customer,
             state=state
         )
-        customer_state.confirm=request.confirm
+        customer_state.confirm = request.confirm
         customer_state.save()
 
-        result = customer_pb2.SetStateResponse(id=200, message="وضعیت با تغییر یافت")
+        result = customer_pb2.SetStateResponse(
+            id=200, message="وضعیت با تغییر یافت")
         response_serializer = SetStateResponseSerializer(result)
         return response_serializer.message
-
 
     def GetPersonJobInfo(self, request, context):
         customer = self.get_object(request.normal_national_code)
@@ -314,7 +317,8 @@ class CustomerService(Service):
 
     def GetPersonBankAccount(self, request, context):
         customer = self.get_object(request.normal_national_code)
-        accounts = CustomerBankAccount.objects.select_related('branch').filter(customer=customer)
+        accounts = CustomerBankAccount.objects.select_related(
+            'branch').filter(customer=customer)
         result = []
         for account in accounts:
             result.append(customer_pb2.Account(
@@ -337,7 +341,8 @@ class CustomerService(Service):
 
     def GetPersonFinancialInfo(self, request, context):
         customer = self.get_object(request.normal_national_code)
-        financial_info = CustomerFinancialInfo.objects.filter(customer=customer).first()
+        financial_info = CustomerFinancialInfo.objects.filter(
+            customer=customer).first()
         serializer = CustomerFinancialInfoInfoSerializer(financial_info)
         return serializer.message
 
@@ -345,7 +350,8 @@ class CustomerService(Service):
         customer = self.get_object(request.normal_national_code)
         result = []
         for item in BaseFileType.objects.all():
-            c_file = CustomerFile.objects.filter(customer=customer, file_type=item).first()
+            c_file = CustomerFile.objects.filter(
+                customer=customer, file_type=item).first()
             result.append(customer_pb2.CustomerFile(
                 id=item.id,
                 name=item.name,
@@ -373,9 +379,11 @@ class CustomerService(Service):
                 c.file_data = request.file_data
                 c.save()
 
-            result = customer_pb2.PostCustomerFileResponse(id=200, message="اطلاعات با موفقیت ذخیره  شد")
+            result = customer_pb2.PostCustomerFileResponse(
+                id=200, message="اطلاعات با موفقیت ذخیره  شد")
         except Exception as e:
-            result = customer_pb2.PostCustomerFileResponse(id=400, message="خطا در ثبت اطلاعات")
+            result = customer_pb2.PostCustomerFileResponse(
+                id=400, message="خطا در ثبت اطلاعات")
 
         finally:
             response_serializer = PostCustomerFileSerializer(result)
@@ -401,3 +409,65 @@ class CustomerService(Service):
         )
         response_serializer = CustomerInfoSerializer(result)
         return response_serializer.message
+
+    def LoginByNationalId(self, request, context):
+        customer = self.get_object(request.normal_national_code)
+        phones = CustomerPhonePerson.objects.filter(
+            customer=customer,
+            is_mobile=True,
+            is_active=True
+        )
+
+        if phones.count() > 1:
+            result = customer_pb2.LoginStateResponse(
+                id=403,
+                message="تلفن های همراه فعال بیش از یک عدد است"
+            )
+            response_serializer = LoginByNationalResponseSerializer(result)
+            return response_serializer.message
+
+        result_data = CustomerVerification.send_verification_code(
+            customer, phones.first())
+        result = customer_pb2.LoginStateResponse(
+            id=result_data.status_code,
+            message="کد فعال سازی ارسال شد" if result_data.status_code == 200 else "خطا در ارسال پیامک"
+        )
+        response_serializer = LoginByNationalResponseSerializer(result)
+        return response_serializer.message
+
+    def CustomerVerified(self, request, context):
+        customer = self.get_object(request.normal_national_code)
+        verified = CustomerVerification.objects.filter(
+            customer=customer,
+            is_active=True
+        ).first()
+
+        def message(data):
+            result = customer_pb2.StateResponse(**data)
+            response_serializer = CustomerVerifiedSerializer(result)
+            return response_serializer.message
+
+        if verified is None:
+            return message({
+                "id": 404,
+                "message": "کد فعالسازی یافت نشد"
+            })
+
+        now = datetime.now(timezone.utc)
+        if (now - verified.created_date) / 60 > 2:
+            verified.is_active = False
+            verified.save()
+            return message({
+                "id": 403,
+                "message": "کد فعالسازی منقضی شده است"
+            })
+
+        if verified.code != request.verification_code:
+            return message({
+                "id": 400,
+                "message": "کد فعالسازی اشتباه است"
+            })
+
+        verified.is_active = False
+        verified.save()
+        return message({"id": 200, "message": "کد فعالسازی تایید شد"})
