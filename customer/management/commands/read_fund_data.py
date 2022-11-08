@@ -2,12 +2,13 @@ from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 from service.client.rayan.broker_customer import fund_customer_list
 from customer.models import Customer, CustomerFund, CustomerPhonePerson
+from base.models import BaseFund
 
 class Command(BaseCommand):
     help = 'read fund data from rayan'
 
     def handle(self, *args, **options):
-        for service in ("fund1", "fund2"):
+        for service in BaseFund.objects.filter(is_active=True):
             for item in fund_customer_list(service).result:
                 with transaction.atomic():
                     customer, _ = Customer.objects.get_or_create(
@@ -21,7 +22,8 @@ class Command(BaseCommand):
 
                     customer_fund, _ = CustomerFund.objects.get_or_create(
                         customer_service=customer,
-                        fund_name=service,
+                        fund_name=service.name,
+                        fund=service,
                         defaults={
                             "customer_id": item.customer_id,
                             "referred_by": item.referred_by,

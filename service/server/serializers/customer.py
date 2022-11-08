@@ -390,3 +390,15 @@ class CustomerVerifiedSerializer(
 
     class Meta:
         proto_class = customer_pb2.StateResponse
+
+
+class CustomerAppSerializer(
+        proto_serializers.ProtoSerializer
+):
+    id = serializers.IntegerField()
+    name = serializers.CharField(max_length=100)
+    fa_name = serializers.CharField(max_length=100)
+    active = serializers.BooleanField()
+
+    class Meta:
+        proto_class = customer_pb2.CustomerApp

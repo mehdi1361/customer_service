@@ -23,6 +23,7 @@ service CustomerController {
     rpc CustomerPostFile (PostCustomerFile) returns (PostCustomerFileResponse) {}
     rpc LoginByNationalId (LoginByNationalIdRequest) returns (LoginStateResponse) {}
     rpc CustomerVerified (CustomerVerifiedRequest) returns (StateResponse) {}
+    rpc CustomerListApp (CustomerListAppRequest) returns (stream CustomerApp) {}
 
 
 }
@@ -323,4 +324,15 @@ message StateResponse {
 message CustomerVerifiedRequest {
         string verification_code = 1;
         string normal_national_code = 2;
+}
+
+message CustomerListAppRequest {
+        string normal_national_code = 1;
+}
+
+message CustomerApp {
+        int64 id = 1;
+        string name = 2;
+        string fa_name = 3;
+        bool active = 4;
 }

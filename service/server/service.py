@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from google.protobuf import empty_pb2
 from django_grpc_framework.services import Service
 from base.models import BaseBank, BaseProvince, BaseCities, BaseBankBranch, \
-    BaseCities, BaseState, BaseFileType
+    BaseCities, BaseState, BaseFileType, BaseFund
 from service.server.serializers import BankProtoSerializer, \
     ProvinceProtoSerializer, CityProtoSerializer, \
     CustomerComexVisitorProtoSerializer, CustomerProtoSerializer, \
@@ -14,12 +14,12 @@ from service.server.serializers import BankProtoSerializer, \
     CustomerAddressInfoSerializer, \
     CustomerFinancialInfoInfoSerializer, CustomerFileSerializer, \
     PostCustomerFileSerializer, CustomerInfoSerializer, AccountSerializer, \
-    LoginByNationalResponseSerializer, CustomerVerifiedSerializer
+    LoginByNationalResponseSerializer, CustomerVerifiedSerializer, CustomerAppSerializer
 from django_grpc_framework import generics
 from customer.models import CustomerComexVisitor, Customer, CustomerPhonePerson, \
     CustomerFinancialInfo, CustomerJobInfo, CustomerBankAccount, \
     CustomerAddress, CustomerPrivateInfo, CustomerState, CustomerJobInfo, \
-    CustomerFile, CustomerVerification
+    CustomerFile, CustomerVerification, CustomerFund
 from django.db import transaction
 from service.server.grpc import customer_pb2
 
@@ -471,3 +471,23 @@ class CustomerService(Service):
         verified.is_active = False
         verified.save()
         return message({"id": 200, "message": "کد فعالسازی تایید شد"})
+
+
+    def CustomerListApp(self, request, context):
+        customer = self.get_object(request.normal_national_code)
+        result = []
+
+
+        for item in BaseFund.objects.all():
+            result.append(
+                customer_pb2.CustomerApp(
+                    id=item.id,
+                    name=item.name,
+                    fa_name=item.fa_name,
+                    active=CustomerFund.objects.filter(customer_service=customer, fund=item).exists()
+                )
+            )
+
+        serializer = CustomerAppSerializer(result, many=True)
+        for msg in serializer.message:
+            yield msg

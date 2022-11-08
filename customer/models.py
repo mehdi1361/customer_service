@@ -1,6 +1,6 @@
 import random
 from django.db import models
-from base.models import Base, BaseJob, BaseBankBranch, BaseMebbcoBranch, BaseFileType, BaseState
+from base.models import Base, BaseJob, BaseBankBranch, BaseMebbcoBranch, BaseFileType, BaseState, BaseFund
 from django.db import transaction
 from service.client.sms.sender import send_sms
 
@@ -189,6 +189,7 @@ class CustomerFund(Base):
     account_number = models.CharField(max_length=100, blank=True, null=True)
     customer_service = models.ForeignKey(Customer, models.DO_NOTHING, blank=True, null=True)
     is_portfo = models.IntegerField(blank=True, null=True)
+    fund = models.ForeignKey(BaseFund, models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         db_table = 'customer_fund'

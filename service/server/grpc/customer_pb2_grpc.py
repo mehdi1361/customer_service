@@ -105,6 +105,11 @@ class CustomerControllerStub(object):
                 request_serializer=customer__pb2.CustomerVerifiedRequest.SerializeToString,
                 response_deserializer=customer__pb2.StateResponse.FromString,
                 )
+        self.CustomerListApp = channel.unary_stream(
+                '/customer.CustomerController/CustomerListApp',
+                request_serializer=customer__pb2.CustomerListAppRequest.SerializeToString,
+                response_deserializer=customer__pb2.CustomerApp.FromString,
+                )
 
 
 class CustomerControllerServicer(object):
@@ -218,6 +223,12 @@ class CustomerControllerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def CustomerListApp(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_CustomerControllerServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -310,6 +321,11 @@ def add_CustomerControllerServicer_to_server(servicer, server):
                     servicer.CustomerVerified,
                     request_deserializer=customer__pb2.CustomerVerifiedRequest.FromString,
                     response_serializer=customer__pb2.StateResponse.SerializeToString,
+            ),
+            'CustomerListApp': grpc.unary_stream_rpc_method_handler(
+                    servicer.CustomerListApp,
+                    request_deserializer=customer__pb2.CustomerListAppRequest.FromString,
+                    response_serializer=customer__pb2.CustomerApp.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -624,5 +640,22 @@ class CustomerController(object):
         return grpc.experimental.unary_unary(request, target, '/customer.CustomerController/CustomerVerified',
             customer__pb2.CustomerVerifiedRequest.SerializeToString,
             customer__pb2.StateResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CustomerListApp(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/customer.CustomerController/CustomerListApp',
+            customer__pb2.CustomerListAppRequest.SerializeToString,
+            customer__pb2.CustomerApp.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
